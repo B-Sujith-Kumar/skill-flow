@@ -67,7 +67,7 @@ const Loginuser = () => {
           <h2 className="text-center  text-xl font-medium">
             Sign In to SkillFlow
           </h2>
-          <form action="">
+          <form action="" onSubmit={handleClick}>
             <div className="mt-10">
               <label htmlFor="empID" className="block text-lg">
                 Employee ID
@@ -75,7 +75,7 @@ const Loginuser = () => {
               <input
                 placeholder="Employee ID"
                 type="text"
-                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green tracking-wider"
                 id="empID"
                 required
                 onChange={(e) => setEmpId(e.target.value)}
@@ -86,7 +86,7 @@ const Loginuser = () => {
               <input
                 type="password"
                 placeholder="Password"
-                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green tracking-wider"
                 id="password"
                 minLength={5}
                 required
@@ -101,7 +101,6 @@ const Loginuser = () => {
             <div>
               <button
                 type="submit"
-                onClick={handleClick}
                 className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
               >
                 Sign In

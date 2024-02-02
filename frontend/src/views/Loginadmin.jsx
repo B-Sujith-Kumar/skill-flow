@@ -62,41 +62,42 @@ const Loginadmin = () => {
           <h2 className="text-center  text-xl font-medium">
             Sign In to SkillFlow
           </h2>
-          <div className="mt-10">
-            <label htmlFor="admID" className="block text-lg">
-              Admin ID
-            </label>
-            <input
-              placeholder="Admin ID"
-              type="text"
-              className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green"
-              id="admID"
-              onChange={(e) => setAdminId(e.target.value)}
-            />
-            <label htmlFor="password" className="block mt-6 text-lg">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Password"
-              className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="mt-4">
-            <a className="text-slate-700 cursor-pointer hover:underline">
-              Forgot password?
-            </a>
-          </div>
-          <div>
-            <button
-              className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
-              onClick={handleClick}
-            >
-              Sign In
-            </button>
-          </div>
+          <form action="" onSubmit={handleClick}>
+            <div className="mt-10">
+              <label htmlFor="admID" className="block text-lg">
+                Admin ID
+              </label>
+              <input
+                placeholder="Admin ID"
+                type="text"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green tracking-wider"
+                id="admID"
+                onChange={(e) => setAdminId(e.target.value)}
+              />
+              <label htmlFor="password" className="block mt-6 text-lg">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green tracking-wider"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mt-4">
+              <a className="text-slate-700 cursor-pointer hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div>
+              <button
+                className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
