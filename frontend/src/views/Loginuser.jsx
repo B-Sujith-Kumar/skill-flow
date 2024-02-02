@@ -1,6 +1,45 @@
 import logo from "../assets/images/logo.svg";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Loginuser = () => {
+  const [empId, setEmpId] = useState("");
+  const [password, setPassword] = useState("");
+  const nav = useNavigate();
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log(empId, password);
+    try {
+      const response = await fetch("http://localhost:3000/api/employee/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          empId,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        nav("/user/dashboard");
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      nav("/user/dashboard");
+    }
+  }, []);
   return (
     <div className="min-h-screen sm:bg-gradient-to-bl from-white to-green-50 via-slate-50">
       <div className="max-w-3xl font-rubik mx-auto flex flex-col justify-center pt-10 items-center gap-4 max-sm:mx-3">
@@ -28,36 +67,47 @@ const Loginuser = () => {
           <h2 className="text-center  text-xl font-medium">
             Sign In to SkillFlow
           </h2>
-          <div className="mt-10">
-            <label htmlFor="empID" className="block text-lg">
-              Employee ID
-            </label>
-            <input
-              placeholder="Employee ID"
-              type="text"
-              className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green"
-              id="empID"
-            />
-            <label htmlFor="password" className="block mt-6 text-lg">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Password"
-              className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green"
-              id="password"
-            />
-          </div>
-          <div className="mt-4">
-            <a className="text-slate-700 cursor-pointer hover:underline">
-              Forgot password?
-            </a>
-          </div>
-          <div>
-            <button className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8">
-              Sign In
-            </button>
-          </div>
+          <form action="">
+            <div className="mt-10">
+              <label htmlFor="empID" className="block text-lg">
+                Employee ID
+              </label>
+              <input
+                placeholder="Employee ID"
+                type="text"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green"
+                id="empID"
+                required
+                onChange={(e) => setEmpId(e.target.value)}
+              />
+              <label htmlFor="password" className="block mt-6 text-lg">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green"
+                id="password"
+                minLength={5}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mt-4">
+              <a className="text-slate-700 cursor-pointer hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div>
+              <button
+                type="submit"
+                onClick={handleClick}
+                className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

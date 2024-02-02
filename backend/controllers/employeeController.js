@@ -1,26 +1,37 @@
-// controllers/employeeController.js
-
 const Employee = require("../models/employeeModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
-const employeeController = {
-  login: async (req, res) => {
-    const { employeeId, password } = req.body;
-
+const empLogin = async (req, res) => {
+    let success = false;
+    const { empId, password } = req.body;
+    console.log(empId, password);
     try {
-      const employee = await Employee.findOne({ employee_id: employeeId });
-
-      if (!employee || !bcrypt.compareSync(password, employee.password)) {
-        return res.status(401).json({ error: "Invalid credentials" });
-      }
-
-      // You might want to generate a token here and send it back to the client
-      res.status(200).json({ message: "Login successful" });
-    } catch (error) {
-      console.error("Error during employee login:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        let emp = await Employee.findOne({ employeeId: empId });
+        if (!emp) {
+            return res.status(400).json({ success, message: "Invalid credentials" });
+        }
+        const passwordMatch = await bcrypt.compare(password, emp.password);
+        if (!passwordMatch) {
+            return res.status(400).json({ success, message: "Invalid credentials" });
+        }
+        const data = {
+            emp: {
+                id: emp.id
+            }
+        }
+        const token = jwt.sign(data, process.env.JWT_SECRET);
+        success = true;
+        res.json({ success, token });
     }
-  },
-};
+    catch (error) {
+        console.error("Error during employee login:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
 
-module.exports = employeeController;
+
+module.exports = {
+    empLogin
+};

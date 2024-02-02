@@ -1,24 +1,37 @@
 const Admin = require("../models/adminModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
-const adminController = {
-  login: async (req, res) => {
+
+const adminLogin = async (req, res) => {
+    let success = false;
     const { adminId, password } = req.body;
-
+    console.log(adminId, password);
     try {
-      const admin = await Admin.findOne({ admin_id: adminId });
-
-      if (!admin || !bcrypt.compareSync(password, admin.password)) {
-        return res.status(401).json({ error: "Invalid credentials" });
-      }
-
-      // You might want to generate a token here and send it back to the client
-      res.status(200).json({ message: "Login successful" });
+        let admin = await Admin.findOne({ adminId: adminId });
+        if (!admin) {
+            return res.status(400).json({ success, message: "Invalid credentials" });
+        }
+        const passwordMatch = await bcrypt.compare(password.trim(), admin.password);
+        console.log(passwordMatch);
+        if (!passwordMatch) {
+            return res.status(400).json({ success, message: "Invalid credentials" });
+        }
+        const data = {
+            admin: {
+                id: admin.id
+            }
+        }
+        const token = jwt.sign(data, process.env.JWT_SECRET);
+        success = true;
+        res.json({ success, token });
     } catch (error) {
-      console.error("Error during admin login:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error during admin login:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-  },
 };
 
-module.exports = adminController;
+module.exports = {
+    adminLogin
+};

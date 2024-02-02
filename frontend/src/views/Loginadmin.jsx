@@ -1,6 +1,40 @@
 import logo from "../assets/images/logo.svg";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Loginadmin = () => {
+  const [adminId, setAdminId] = useState("");
+  const [password, setPassword] = useState("");
+  const nav = useNavigate();
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log(adminId, password);
+    try {
+      const response = await fetch("http://localhost:3000/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminId,
+          password,
+        }),
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        nav("/admin/dashboard");
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="min-h-screen sm:bg-gradient-to-bl from-white to-green-50 via-slate-50">
       <div className="max-w-3xl font-rubik mx-auto flex flex-col justify-center pt-10 items-center gap-4 max-sm:mx-3">
@@ -37,6 +71,7 @@ const Loginadmin = () => {
               type="text"
               className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green"
               id="admID"
+              onChange={(e) => setAdminId(e.target.value)}
             />
             <label htmlFor="password" className="block mt-6 text-lg">
               Password
@@ -46,6 +81,7 @@ const Loginadmin = () => {
               placeholder="Password"
               className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="mt-4">
@@ -54,7 +90,10 @@ const Loginadmin = () => {
             </a>
           </div>
           <div>
-            <button className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8">
+            <button
+              className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
+              onClick={handleClick}
+            >
               Sign In
             </button>
           </div>
