@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs');
 const adminModel = require('../models/adminModel');
 
 router.post('/', async (req, res) => {
-    console.log(req.body);
+    console.log('Request Body:', req.body);
+
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(req.body.password, salt);
 

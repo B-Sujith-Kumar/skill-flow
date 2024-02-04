@@ -23,7 +23,7 @@ const employeeSchema = new mongoose.Schema({
     paymentFrequency: { type: String, enum: ['Monthly', 'Bi-weekly', 'Weekly'], required: true },
   },
   credentials: {
-    employeeID: { type: String, required: true },
+    employeeID: { type: String, required: true,unique: true },
     initialPassword: { type: String, required: true },
   },
   additionalInformation: {
