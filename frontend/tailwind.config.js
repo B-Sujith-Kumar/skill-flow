@@ -11,6 +11,12 @@ export default {
             },
             colors: {
                 'coral-green': '#068932',
+            },
+            backgroundColor: {
+                'dashboard': "#f5f6fa"
+            },
+            backgroundImage: {
+                'custom-image': "url('/src/assets/images/book-bg.png)"
             }
         },
     },

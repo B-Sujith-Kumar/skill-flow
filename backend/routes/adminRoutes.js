@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/adminController");
-const employee_creation_controller = require("../controllers/employee_creation_controller");
+const employeeController = require("../controllers/employeeController");
 const bcrypt = require("bcryptjs");
 const adminModel = require("../models/adminModel");
 
@@ -30,10 +30,10 @@ router.post("/", async (req, res) => {
 
 router.post("/login", adminController.adminLogin);
 
-router.post("/create", employee_creation_controller.empCreate);
+router.post("/create", employeeController.empCreate);
 
-router.post("/update", employee_creation_controller.empUpdate);
+router.post("/update", employeeController.empUpdate);
 
-router.post("/delete", employee_creation_controller.deleteEmployee);
+router.post("/delete", employeeController.deleteEmployee);
 
 module.exports = router;
