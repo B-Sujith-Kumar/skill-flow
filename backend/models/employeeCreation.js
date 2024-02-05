@@ -19,12 +19,11 @@ const employeeSchema = new mongoose.Schema({
     joiningDate: { type: Date, required: true },
   },
   salaryInformation: {
-    salaryStructure: { type: Number, required: true },
-    paymentFrequency: { type: String, enum: ['Monthly', 'Bi-weekly', 'Weekly'], required: true },
+    salary: { type: Number, required: true },
   },
   credentials: {
     employeeID: { type: String, required: true,unique: true },
-    initialPassword: { type: String, required: true },
+    Password: { type: String, required: true },
   },
   additionalInformation: {
     reportingManager: { type: String, required: true },
