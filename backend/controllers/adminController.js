@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
-
 const adminLogin = async (req, res) => {
     let success = false;
     const { adminId, password } = req.body;
@@ -31,6 +30,7 @@ const adminLogin = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 module.exports = {
     adminLogin
