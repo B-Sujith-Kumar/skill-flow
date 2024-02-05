@@ -19,7 +19,7 @@ const employeeSchema = new mongoose.Schema({
     joiningDate: { type: Date, required: true },
   },
   salaryInformation: {
-    salary: { type: Number, required: true },
+    salaryStructure: { type: Number, required: true },
   },
   credentials: {
     employeeID: { type: String, required: true,unique: true },
