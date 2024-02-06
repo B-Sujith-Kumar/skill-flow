@@ -144,36 +144,36 @@ const deleteEmployee = async (req, res) => {
 };
 
 
-const searchEmployee = async(req,res)=>{
+const searchEmployee = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
-    
+
         // Use findOne to find an employee based on the employeeId
         const foundEmployee = await employeeCreation.findOne({
-          "credentials.employeeID": employeeId
+            "credentials.employeeID": employeeId
         });
-    
+
         if (!foundEmployee) {
-          console.log("Employee not found with ID:", employeeId);
-          return res.status(404).json({
-            success: false,
-            message: "Employee not found with the given employeeId."
-          });
+            console.log("Employee not found with ID:", employeeId);
+            return res.status(404).json({
+                success: false,
+                message: "Employee not found with the given employeeId."
+            });
         }
-    
+
         console.log("Employee found:", foundEmployee);
-    
+
         res.status(200).json({
-          success: true,
-          employee: foundEmployee
+            success: true,
+            employee: foundEmployee
         });
-      } catch (error) {
+    } catch (error) {
         console.error("Error searching for employee:", error);
         res.status(500).json({
-          success: false,
-          message: "Internal server error while searching for employee."
+            success: false,
+            message: "Internal server error while searching for employee."
         });
-      }
+    }
 };
 
 module.exports = {
