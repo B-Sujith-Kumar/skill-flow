@@ -1,7 +1,7 @@
 import AdminSidebar from "../components/AdminSidebar";
 import "../App.css";
 import { useState } from "react";
-import Notification from "../components/ErrorPopUp";
+// import Notification from "../components/ErrorPopUp";
 
 const AddEmployee = () => {
   const [formData, setFormData] = useState({
@@ -22,8 +22,6 @@ const AddEmployee = () => {
     employeeID: "",
     password: "",
   });
-  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
-  const [showErrorNotification, setShowErrorNotification] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
   const handleSubmit = async (e) => {
@@ -37,9 +35,6 @@ const AddEmployee = () => {
         ...formData,
         fullName: formData.firstName + formData.middleName + formData.lastName,
       };
-      delete updatedFormData.middleName;
-      delete updatedFormData.lastName;
-      delete updatedFormData.firstName;
 
       setFormData(updatedFormData);
       console.log(formData);
@@ -56,9 +51,9 @@ const AddEmployee = () => {
           response.status === 400 &&
           response.message === "Duplicate employee ID or email."
         ) {
-          setShowErrorNotification(true);
+          console.log("Duplicate employee ID or email.");
         } else if (response.ok) {
-          setShowSuccessNotification(true);
+          console.log("Success");
         }
       } catch (err) {
         console.log(err);
@@ -606,20 +601,6 @@ const AddEmployee = () => {
               Submit
             </button>
           </div>
-          {showSuccessNotification && (
-            <Notification
-              message="Employee creation successful!"
-              type="success"
-              onClose={() => setShowSuccessNotification(false)}
-            />
-          )}
-          {showErrorNotification && (
-            <Notification
-              message="Duplicate email or employeeID. Please check and try again."
-              type="error"
-              onClose={() => setShowErrorNotification(false)}
-            />
-          )}
         </form>
       </div>
     </div>
