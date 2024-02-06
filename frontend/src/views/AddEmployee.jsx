@@ -1,7 +1,16 @@
 import AdminSidebar from "../components/AdminSidebar";
 import "../App.css";
 import { useState } from "react";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
+
 // import Notification from "../components/ErrorPopUp";
+toastr.options = {
+  closeButton: true,
+  progressBar: true,
+  positionClass: 'toast-top-right',
+  preventDuplicates: true,
+};
 
 const AddEmployee = () => {
   const [formData, setFormData] = useState({
@@ -47,14 +56,17 @@ const AddEmployee = () => {
           body: JSON.stringify(formData),
         });
         if (
-          !response.ok &&
-          response.status === 400 &&
+          !response.ok ||
+          response.status === 400 ||
           response.message === "Duplicate employee ID or email."
         ) {
-          console.log("Duplicate employee ID or email.");
+          // Show duplicate toaster
+          toastr.error("Duplicate Employee ID or email", "Error");
         } else if (response.ok) {
-          console.log("Success");
+          // Show success toaster
+          toastr.success("Employee Added Succesfully", "Success");
         }
+        
       } catch (err) {
         console.log(err);
       }
