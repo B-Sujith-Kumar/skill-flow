@@ -30,4 +30,6 @@ router.post('/', async (req, res) => {
 
 router.post("/login", employeeController.empLogin);
 
+
+
 module.exports = router;

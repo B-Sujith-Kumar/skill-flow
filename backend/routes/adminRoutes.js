@@ -36,4 +36,7 @@ router.post("/update", employeeController.empUpdate);
 
 router.post("/delete", employeeController.deleteEmployee);
 
+router.get('/search/:employeeId', employeeController.searchEmployee);
+  
+
 module.exports = router;
