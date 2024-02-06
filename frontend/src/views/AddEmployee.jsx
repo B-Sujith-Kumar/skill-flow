@@ -9,7 +9,7 @@ const AddEmployee = () => {
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Employee Management / Add an Employee
         </p>
-        <h2 className="text-3xl mt-2 font-medium text-slate-800">
+        <h2 className="text-3xl mt-2 font-medium text-slate-800 text-green-600">
           Add an employee
         </h2>
         <form action="" className="my-8">
