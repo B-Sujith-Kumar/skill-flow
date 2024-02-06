@@ -1,14 +1,13 @@
 import AdminSidebar from "../components/AdminSidebar";
 import "../App.css";
 import { useState } from "react";
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
-// import Notification from "../components/ErrorPopUp";
 toastr.options = {
   closeButton: true,
   progressBar: true,
-  positionClass: 'toast-top-right',
+  positionClass: "toast-top-right",
   preventDuplicates: true,
 };
 
@@ -60,13 +59,10 @@ const AddEmployee = () => {
           response.status === 400 ||
           response.message === "Duplicate employee ID or email."
         ) {
-          // Show duplicate toaster
           toastr.error("Duplicate Employee ID or email", "Error");
         } else if (response.ok) {
-          // Show success toaster
           toastr.success("Employee Added Succesfully", "Success");
         }
-        
       } catch (err) {
         console.log(err);
       }
@@ -149,14 +145,14 @@ const AddEmployee = () => {
   return (
     <div>
       <AdminSidebar />
-      <div className="min-h-screen pb-4 main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
+      <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Employee Management / Add an Employee
         </p>
         <h2 className="text-3xl mt-2 font-medium text-slate-800">
           Add an employee
         </h2>
-        <form action="" className="my-8" onSubmit={handleSubmit}>
+        <form action="" className="mt-8 pb-6" onSubmit={handleSubmit}>
           <div className="border-[1px] border-slate-300 pb-12 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white">
             <h2 className="text-xl font-semibold leading-7 text-gray-900">
               Personal Information

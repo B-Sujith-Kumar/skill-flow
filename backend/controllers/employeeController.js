@@ -32,7 +32,6 @@ const empLogin = async (req, res) => {
 };
 
 const empCreate = async (req, res) => {
-    console.log(req.body);
     try {
         let {
             firstName,
@@ -94,7 +93,6 @@ const empCreate = async (req, res) => {
         res.status(201).json({ success: true, employee: newEmployee });
     } catch (error) {
         if (error.code === 11000) {
-            console.log("Duplicate employee ID or email.");
             res
                 .status(400)
                 .json({ success: false, message: "Duplicate employee ID or email." });

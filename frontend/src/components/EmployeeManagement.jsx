@@ -10,7 +10,7 @@ const EmployeeManagement = () => {
     <div>
       <AdminSidebar />
       {/* <DeleteEmployee /> */}
-      <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
+      <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-8">
         <p className="pt-8 text-slate-500">Pages / Employee Management</p>
         <h2 className="text-3xl mt-2 font-medium text-slate-800">
           Employee Management
