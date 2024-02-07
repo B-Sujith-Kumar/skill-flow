@@ -116,6 +116,7 @@ const UpdateEmployee = () => {
         });
         if (response.ok) {
           toastr.success("Updated employee successfully!", "Success");
+          handleSearch();
         } else if (!response.ok) {
           toastr.error("Uh oh! Failed to update employee", "Error");
         }
@@ -123,7 +124,6 @@ const UpdateEmployee = () => {
         toastr.error("Uh oh! Problem with internal server", "error");
         console.log(err);
       } finally {
-        setFormData(null);
         setIsLoading(false);
       }
     }
