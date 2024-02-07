@@ -29,9 +29,11 @@ const EmployeeManagement = () => {
               <EmpOperationCard text="Delete an employee" operation="Delete" />
             </div>
           </NavLink>
-          <div className="">
-            <EmpOperationCard text="Update an employee" operation="Update" />
-          </div>
+          <NavLink to="/admin/employee-management/update-employee">
+            <div className="">
+              <EmpOperationCard text="Update an employee" operation="Update" />
+            </div>
+          </NavLink>
         </div>
       </div>
     </div>

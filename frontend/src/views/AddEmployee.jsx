@@ -186,7 +186,7 @@ const AddEmployee = () => {
               </div>
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="first-name"
+                  htmlFor="middle-name"
                   className="block text-md font-medium leading-6 text-gray-900"
                 >
                   Middle name (optional)

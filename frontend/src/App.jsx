@@ -6,6 +6,7 @@ import Admindashboard from "./views/Admindashboard";
 import EmployeeManagement from "./components/EmployeeManagement";
 import AddEmployee from "./views/AddEmployee";
 import DeleteEmployee from "./views/DeleteEmployee";
+import UpdateEmployee from "./views/UpdateEmployee";
 
 export default function App() {
   return (
@@ -27,6 +28,10 @@ export default function App() {
           <Route
             path="/admin/employee-management/delete-employee"
             element={<DeleteEmployee />}
+          />
+          <Route
+            path="/admin/employee-management/update-employee"
+            element={<UpdateEmployee />}
           />
           <Route
             path="/user/dashboard"

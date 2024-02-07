@@ -17,6 +17,7 @@ const DeleteEmployee = () => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+    setEmployeeDetails(null);
 
     try {
       const response = await fetch(
@@ -124,7 +125,7 @@ const DeleteEmployee = () => {
         {isLoading && (
           <div className="spinner-container flex flex-col items-center mt-44">
             <BeatLoader color="#36D7B7" size={15} margin={5} />
-            <p>Loading employee details...</p>
+            <p className="mt-4">Loading employee details...</p>
           </div>
         )}
         {employeeDetails && (
