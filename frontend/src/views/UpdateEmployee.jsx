@@ -70,12 +70,62 @@ const UpdateEmployee = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const errors = validateForm(formData);
     setFormErrors(errors);
 
+    let empUpdate = { employeeID };
     if (Object.keys(errors).length === 0) {
       console.log(formData);
+      empUpdate = {
+        employeeID,
+        updatedData: {
+          personalInformation: {
+            fullName: formData.fullName,
+            gender: formData.gender,
+            dateOfBirth: formData.dateOfBirth,
+          },
+          contactInformation: {
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+          },
+          positionAndDepartment: {
+            jobTitle: formData.jobTitle,
+            department: formData.department,
+          },
+          employmentDetails: {
+            employmentType: formData.employmentType,
+            joiningDate: formData.joiningDate,
+          },
+          salaryInformation: {
+            salaryStructure: formData.salaryStructure,
+          },
+          additionalInformation: {
+            workLocation: formData.workLocation,
+            reportingManager: formData.reportingManager,
+          },
+        },
+      };
+      try {
+        const response = await fetch("http://localhost:3000/api/admin/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(empUpdate),
+        });
+        if (response.ok) {
+          toastr.success("Updated employee successfully!", "Success");
+        } else if (!response.ok) {
+          toastr.error("Uh oh! Failed to update employee", "Error");
+        }
+      } catch (err) {
+        toastr.error("Uh oh! Problem with internal server", "error");
+        console.log(err);
+      } finally {
+        setFormData(null);
+        setIsLoading(false);
+      }
     }
   };
   const validateForm = (data) => {

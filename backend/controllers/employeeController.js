@@ -108,11 +108,9 @@ const empCreate = async (req, res) => {
 const empUpdate = async (req, res) => {
     try {
         const { employeeID, updatedData } = req.body;
-        
-        // Find the existing employee
+
         const existingEmployee = await employeeCreation.findOne({ "credentials.employeeID": employeeID });
 
-        // If the employee is not found, return a 404 response
         if (!existingEmployee) {
             return res.status(404).json({ success: false, message: "Employee not found." });
         }
@@ -127,7 +125,6 @@ const empUpdate = async (req, res) => {
             { new: true }
         );
 
-        // Respond with the updated employee
         res.status(200).json({ success: true, employee: updatedEmployee });
     } catch (error) {
         console.error("Error updating employee:", error);
