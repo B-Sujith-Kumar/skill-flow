@@ -108,22 +108,33 @@ const empCreate = async (req, res) => {
 const empUpdate = async (req, res) => {
     try {
         const { employeeID, updatedData } = req.body;
+        
+        // Find the existing employee
+        const existingEmployee = await employeeCreation.findOne({ "credentials.employeeID": employeeID });
+
+        // If the employee is not found, return a 404 response
+        if (!existingEmployee) {
+            return res.status(404).json({ success: false, message: "Employee not found." });
+        }
+
+        // Merge existing data with updatedData to preserve unchanged fields
+        const mergedData = { ...existingEmployee.toObject(), ...updatedData };
+
+        // Use findOneAndUpdate to update the employee
         const updatedEmployee = await employeeCreation.findOneAndUpdate(
             { "credentials.employeeID": employeeID },
-            { $set: updatedData },
+            { $set: mergedData },
             { new: true }
         );
-        if (!updatedEmployee) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Employee not found." });
-        }
+
+        // Respond with the updated employee
         res.status(200).json({ success: true, employee: updatedEmployee });
     } catch (error) {
         console.error("Error updating employee:", error);
         res.status(500).json({ success: false, message: "Internal server error." });
     }
 };
+
 
 const deleteEmployee = async (req, res) => {
     try {
