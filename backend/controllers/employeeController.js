@@ -32,7 +32,6 @@ const empLogin = async (req, res) => {
 };
 
 const empCreate = async (req, res) => {
-    console.log(req.body);
     try {
         let {
             firstName,
@@ -94,7 +93,6 @@ const empCreate = async (req, res) => {
         res.status(201).json({ success: true, employee: newEmployee });
     } catch (error) {
         if (error.code === 11000) {
-            console.log("Duplicate employee ID or email.");
             res
                 .status(400)
                 .json({ success: false, message: "Duplicate employee ID or email." });
@@ -110,22 +108,30 @@ const empCreate = async (req, res) => {
 const empUpdate = async (req, res) => {
     try {
         const { employeeID, updatedData } = req.body;
+
+        const existingEmployee = await employeeCreation.findOne({ "credentials.employeeID": employeeID });
+
+        if (!existingEmployee) {
+            return res.status(404).json({ success: false, message: "Employee not found." });
+        }
+
+        // Merge existing data with updatedData to preserve unchanged fields
+        const mergedData = { ...existingEmployee.toObject(), ...updatedData };
+
+        // Use findOneAndUpdate to update the employee
         const updatedEmployee = await employeeCreation.findOneAndUpdate(
             { "credentials.employeeID": employeeID },
-            { $set: updatedData },
+            { $set: mergedData },
             { new: true }
         );
-        if (!updatedEmployee) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Employee not found." });
-        }
+
         res.status(200).json({ success: true, employee: updatedEmployee });
     } catch (error) {
         console.error("Error updating employee:", error);
         res.status(500).json({ success: false, message: "Internal server error." });
     }
 };
+
 
 const deleteEmployee = async (req, res) => {
     try {
@@ -145,9 +151,43 @@ const deleteEmployee = async (req, res) => {
     }
 };
 
+
+const searchEmployee = async (req, res) => {
+    try {
+        const employeeId = req.params.employeeId;
+
+        // Use findOne to find an employee based on the employeeId
+        const foundEmployee = await employeeCreation.findOne({
+            "credentials.employeeID": employeeId
+        });
+
+        if (!foundEmployee) {
+            console.log("Employee not found with ID:", employeeId);
+            return res.status(404).json({
+                success: false,
+                message: "Employee not found with the given employeeId."
+            });
+        }
+
+        console.log("Employee found:", foundEmployee);
+
+        res.status(200).json({
+            success: true,
+            employee: foundEmployee
+        });
+    } catch (error) {
+        console.error("Error searching for employee:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while searching for employee."
+        });
+    }
+};
+
 module.exports = {
     empLogin,
     empCreate,
     empUpdate,
     deleteEmployee,
+    searchEmployee,
 };
