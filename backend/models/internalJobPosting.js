@@ -1,10 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const internalJobPostingSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
+  jobid: Number,
   department: {
     type: String,
     required: true,
@@ -23,7 +24,7 @@ const internalJobPostingSchema = new mongoose.Schema({
   },
   employmentType: {
     type: String,
-    enum: ['Full-time', 'Part-time', 'Contract', 'Temporary'],
+    enum: ["Full-time", "Part-time", "Contract", "Temporary"],
     required: true,
   },
   applicationDeadline: Date,
@@ -38,9 +39,12 @@ const internalJobPostingSchema = new mongoose.Schema({
   },
   additionalInformation: {
     reportingManager: { type: String, required: true },
-    },
+  },
 });
 
-const InternalJobPosting = mongoose.model('InternalJobPosting', internalJobPostingSchema);
+const InternalJobPosting = mongoose.model(
+  "InternalJobPosting",
+  internalJobPostingSchema
+);
 
 module.exports = InternalJobPosting;

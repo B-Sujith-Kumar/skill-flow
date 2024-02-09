@@ -7,6 +7,9 @@ import EmployeeManagement from "./components/EmployeeManagement";
 import AddEmployee from "./views/AddEmployee";
 import DeleteEmployee from "./views/DeleteEmployee";
 import UpdateEmployee from "./views/UpdateEmployee";
+import JobManagement from "./components/JobManagement";
+import AddJob from "./views/AddJob";
+import DeleteJob from "./views/DeleteJob";
 
 export default function App() {
   return (
@@ -20,6 +23,12 @@ export default function App() {
           <Route
             path="/admin/employee-management"
             element={<EmployeeManagement />}
+          />
+          <Route path="/admin/job-management" element={<JobManagement />} />
+          <Route path="/admin/job-management/add-job" element={<AddJob />} />
+          <Route
+            path="/admin/job-management/delete-job"
+            element={<DeleteJob />}
           />
           <Route
             path="/admin/employee-management/add-employee"
