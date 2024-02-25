@@ -34,7 +34,6 @@ const adminLogin = async (req, res) => {
 
 const jobCreate = async (req, res) => {
   try {
-    // Extract job details from the request body
     const {
       title,
       department,
@@ -50,7 +49,6 @@ const jobCreate = async (req, res) => {
       reportingManager,
     } = req.body;
 
-    // Create a new internal job posting
     const newInternalJob = await InternalJobPosting.create({
       title,
       department,
