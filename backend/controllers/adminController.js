@@ -37,12 +37,15 @@ const jobCreate = async (req, res) => {
     // Extract job details from the request body
     const {
       title,
+      jobid,
       department,
       location,
       description,
       responsibilities,
       requirements,
-      qualifications,
+      education,
+      experience,
+      skills,
       employmentType,
       applicationDeadline,
       salary,
@@ -53,12 +56,15 @@ const jobCreate = async (req, res) => {
     // Create a new internal job posting
     const newInternalJob = await InternalJobPosting.create({
       title,
+      jobid,
       department,
       location,
       description,
       responsibilities,
       requirements,
-      qualifications,
+      education,
+      experience,
+      skills,
       employmentType,
       applicationDeadline,
       salary,
@@ -68,8 +74,16 @@ const jobCreate = async (req, res) => {
 
     res.status(201).json({ success: true, job: newInternalJob });
   } catch (error) {
-    console.error("Error creating internal job:", error);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    if (error.code === 11000) {
+            res
+                .status(400)
+                .json({ success: false, message: "Duplicate Job ID" });
+        } else {
+            console.error("Error creating Job:", error);
+            res
+                .status(500)
+                .json({ success: false, message: "Internal server error." });
+        }
   }
 };
 
