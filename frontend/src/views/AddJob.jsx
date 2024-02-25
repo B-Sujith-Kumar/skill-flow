@@ -24,7 +24,7 @@ const AddJob = () => {
     experience: "",
     skill: "",
     skills: [],
-    employmentType: "",
+    employmentType: "Full-time",
     applicationDeadline: "",
     salary: "",
     contactEmail: "",
@@ -100,11 +100,11 @@ const AddJob = () => {
     const errors = validateForm(formData);
     if (Object.keys(errors).length === 0) {
       console.log("Form submitted");
-      console.log(formData);
+      console.log(JSON.stringify(formData));
       try {
         const response = await fetch("http://localhost:3000/api/admin/addJob", {
           method: "POST",
-          header: {
+          headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),

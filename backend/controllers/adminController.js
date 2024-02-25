@@ -51,7 +51,7 @@ const jobCreate = async (req, res) => {
       contactEmail,
       reportingManager,
     } = req.body;
-
+    console.log(req.body);
     const newInternalJob = await InternalJobPosting.create({
       title,
       jobid,
