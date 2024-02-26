@@ -85,7 +85,38 @@ const jobCreate = async (req, res) => {
   }
 };
 
+
+const searchJob = async (req,res)=>{
+  try {
+    const jobid = req.params.jobid;
+
+    const jobPosting = await InternalJobPosting.findOne({ jobid });
+
+    if (!jobPosting) {
+      console.log("Job not found with ID:", jobid);
+      return res.status(404).json({
+          success: false,
+          message: "Job not found with the given JobId."
+      });
+  }
+
+    // If jobid is found, return the job details
+
+    console.log("Job found:", jobPosting);
+    res.status(200).json(jobPosting);
+
+  } catch (error) {
+        console.error("Error searching for Job:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while searching for Job."
+        });
+    }
+
+}
+
 module.exports = {
   adminLogin,
   jobCreate,
+  searchJob,
 };
