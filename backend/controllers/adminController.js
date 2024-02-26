@@ -115,8 +115,36 @@ const searchJob = async (req,res)=>{
 
 }
 
+
+const deleteJob = async (req, res) => {
+  try {
+    const { jobid } = req.body;
+
+    if (!jobid) {
+      return res.status(400).json({ error: "Jobid is required in the request body" });
+    }
+
+    // Find and delete the job posting in the database by jobid
+    const deletedJobPosting = await InternalJobPosting.findOneAndDelete({ jobid });
+
+    if (!deletedJobPosting) {
+      return res.status(404).json({ success: false, message: "Job Posting not found." });
+    }
+
+    // If jobid is found and deleted, return the deleted job details
+    res.status(200).json({ message: "Job posting deleted successfully", deletedJobPosting });
+    
+  } catch (error) {
+
+    console.error("Error deleting job posting:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 module.exports = {
   adminLogin,
   jobCreate,
   searchJob,
+  deleteJob,
 };

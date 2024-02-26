@@ -41,6 +41,8 @@ router.get('/search/:employeeId', employeeController.searchEmployee);
 router.post("/addJob", adminController.jobCreate);
 
 router.get("/searchJob/:jobid" , adminController.searchJob);
+
+router.post("/deleteJob", adminController.deleteJob);
   
 
 module.exports = router;
