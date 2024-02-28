@@ -9,6 +9,7 @@ const DeleteJob = () => {
   const [jobDetails, setJobDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const handleSearch = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -39,6 +40,38 @@ const DeleteJob = () => {
       console.error(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const handleDeleteClick = () => {
+    setShowConfirmDialog(true);
+  };
+  const handleCancel = () => {
+    setShowConfirmDialog(false);
+  };
+  const handleDeleteConfirm = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/admin/deleteJob",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ jobID }),
+        }
+      );
+      if (!response.ok) {
+        toastr.error("Uh oh, there was a problem. Please try again", "Error");
+      } else if (response.ok) {
+        toastr.success("Job deleted successfully", "Success");
+        setJobDetails(null);
+        setJobID("");
+      }
+    } catch (err) {
+      console.log(err);
+      toastr.error("Uh oh, there was a problem. Please try again", "Error");
+    } finally {
+      setShowConfirmDialog(false);
     }
   };
   return (
@@ -82,10 +115,35 @@ const DeleteJob = () => {
           )}
           {jobDetails && (
             <>
-              <button className="mt-8 bg-white border border-red-500 uppercase hover:bg-red-500 active:scale-95 text-red-500 hover:text-white font-medium px-3 py-2 rounded-md">
+              <button
+                className="mt-8 bg-white border border-red-500 uppercase hover:bg-red-500 active:scale-95 text-red-500 hover:text-white font-medium px-3 py-2 rounded-md"
+                onClick={handleDeleteClick}
+              >
                 Delete Job
               </button>
             </>
+          )}
+          {showConfirmDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="bg-white p-6 rounded-md shadow-md">
+                <h4 className="text-lg font-bold mb-4">Are you sure?</h4>
+                <p>This action cannot be undone.</p>
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="bg-gray-300 hover:bg-gray-400 text-black px-3 py-2 rounded-md mr-4"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md"
+                    onClick={handleDeleteConfirm}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
         {jobDetails && <JobDetails jobDetails={jobDetails} />}

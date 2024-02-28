@@ -1,7 +1,7 @@
 import AdminSidebar from "./AdminSidebar";
 import { NavLink } from "react-router-dom";
 import "../App.css";
-import "../assets/icons/search.svg";
+import img from "../assets/icons/search.svg";
 
 const JobManagement = () => {
   return (
@@ -37,7 +37,7 @@ const JobManagement = () => {
           <button type="submit" className="absolute right-0 top-0 mt-3 mr-14">
             <img
               className="text-gray-600 h-4 w-4 fill-current"
-              src="frontend\src\assets\icons\search.svg"
+              src={img}
               alt="Search Icon"
             />
           </button>

@@ -597,7 +597,7 @@ const AddJob = () => {
                     htmlFor="salary"
                     className="block text-md font-medium leading-6 text-gray-900"
                   >
-                    Salary: <span className="text-red-500">*</span>
+                    Salary (in LPA): <span className="text-red-500">*</span>
                   </label>
                   <div className="mt-2">
                     <input
