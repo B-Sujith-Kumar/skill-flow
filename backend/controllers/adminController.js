@@ -140,9 +140,31 @@ const deleteJob = async (req, res) => {
 };
 
 
+const displayjob = async(req, res)=>{
+
+  try {
+    // Find the 8 most recent job postings in the database
+    const recentJobPostings = await InternalJobPosting.find()
+      .sort({ publishedAt: -1 }) 
+      .limit(8); // Limit the results to 8 job postings
+
+    res.status(200).json(recentJobPostings);
+
+  } catch (error) {
+
+    console.error("Error getting recent job postings:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+}
+
+
+
+
 module.exports = {
     adminLogin,
     jobCreate,
     searchJob,
     deleteJob,
+    displayjob,
 };

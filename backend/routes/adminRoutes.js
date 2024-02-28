@@ -43,6 +43,10 @@ router.post("/addJob", adminController.jobCreate);
 router.get("/searchJob/:jobid" , adminController.searchJob);
 
 router.post("/deleteJob", adminController.deleteJob);
+
+router.get("/displayJobs" , adminController.displayjob);
+
+
   
 
 module.exports = router;
