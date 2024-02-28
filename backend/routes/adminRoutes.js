@@ -46,6 +46,7 @@ router.post("/deleteJob", adminController.deleteJob);
 
 router.get("/displayJobs" , adminController.displayjob);
 
+router.get("/allJobs" , adminController.displayAllJobs);
 
   
 

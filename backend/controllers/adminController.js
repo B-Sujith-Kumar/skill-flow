@@ -158,7 +158,22 @@ const displayjob = async(req, res)=>{
 
 }
 
+const displayAllJobs = async(req, res)=>{
 
+  try {
+    const allJobPostings = await InternalJobPosting.find()
+      .sort({ publishedAt: 1 }); // Sort by publishedAt in ascending order
+
+    res.status(200).json(allJobPostings);
+
+  } catch (error) {
+
+    console.error("Error getting all job postings:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+
+}
 
 
 module.exports = {
@@ -167,4 +182,5 @@ module.exports = {
     searchJob,
     deleteJob,
     displayjob,
+    displayAllJobs,
 };
