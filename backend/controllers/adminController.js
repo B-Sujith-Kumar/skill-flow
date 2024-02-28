@@ -100,7 +100,6 @@ const searchJob = async (req,res)=>{
       });
   }
 
-    // If jobid is found, return the job details
 
     console.log("Job found:", jobPosting);
     res.status(200).json(jobPosting);
