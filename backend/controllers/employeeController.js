@@ -2,6 +2,7 @@ const Employee = require("../models/employeeModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const employeeCreation = require("../models/employeeCreation");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const empLogin = async (req, res) => {
@@ -53,6 +54,8 @@ const empCreate = async (req, res) => {
         } = req.body;
 
         let fullName = firstName + " " + middleName + " " + lastName;
+        let emailId = email;
+        let empId = employeeID;
         const salt = await bcrypt.genSalt(10);
         password = await bcrypt.hash(password, salt);
         console.log(password);
@@ -91,7 +94,39 @@ const empCreate = async (req, res) => {
         });
 
         res.status(201).json({ success: true, employee: newEmployee });
-    } catch (error) {
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+
+            auth: {
+              user: process.env.USER,
+              pass: process.env.PASSCODE,
+            },
+          });
+
+          const mailOptions = {
+            from: {
+                name: "SkillFlow",
+                address:process.env.USER,
+            },
+            to: emailId,
+            subject: "Account ID and Password",
+            text: `Welcome to SkillFLow, Congratulations , Your account has been created successfully. 
+Your EmployeeId is ${empId} and your Initial Password is password123. 
+Kindly Login to your Account to complete the Profile : `,
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return res.send({ msg: "error" });
+            }
+            res.send({ msg: "Password sent" });
+          });
+
+     } catch (error) {
         if (error.code === 11000) {
             res
                 .status(400)
