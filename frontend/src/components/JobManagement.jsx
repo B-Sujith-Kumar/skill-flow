@@ -1,9 +1,26 @@
 import AdminSidebar from "./AdminSidebar";
 import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "../App.css";
-import img from "../assets/icons/search.svg";
+import JobCard from "./JobCard";
+import { BeatLoader } from "react-spinners";
 
 const JobManagement = () => {
+  const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      setIsLoading(true);
+      await fetch("http://localhost:3000/api/admin/displayJobs")
+        .then((res) => res.json())
+        .then((data) => {
+          setJobs(data);
+          setIsLoading(false);
+        });
+    };
+    fetchJobs();
+    console.log(jobs);
+  }, []);
   return (
     <div>
       <AdminSidebar />
@@ -34,29 +51,20 @@ const JobManagement = () => {
             name="search"
             placeholder="Search"
           />
-          <button type="submit" className="absolute right-0 top-0 mt-3 mr-14">
-            <img
-              className="text-gray-600 h-4 w-4 fill-current"
-              src={img}
-              alt="Search Icon"
-            />
-          </button>
         </div>
-
-        <div className=" flex flex-1 md:flex-row flex-col justify-center items-center gap-10 mt-24">
-          <div className="rounded-lg p-14 bg-orange-600 text-white cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl overflow-hidden font-bold text-xl">
-            View Jobs
+        {isLoading && (
+          <div className="spinner-container flex flex-col items-center mt-44">
+            <BeatLoader color="#36D7B7" size={15} margin={5} />
+            <p className="mt-4">Loading job details...</p>
           </div>
-          <div className="rounded-lg p-14 bg-pink-600 text-white cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl overflow-hidden font-bold text-xl">
-            View Jobs
+        )}
+        {!isLoading && jobs.length > 0 && (
+          <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
+            {jobs.map((job) => (
+              <JobCard key={job.jobid} job={job} />
+            ))}
           </div>
-          <div className="rounded-lg p-14 bg-gray-700 text-white cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl overflow-hidden font-bold text-xl">
-            View Jobs
-          </div>
-          <div className="rounded-lg p-14 bg-yellow-400 text-white cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl overflow-hidden font-bold text-xl">
-            View Jobs
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

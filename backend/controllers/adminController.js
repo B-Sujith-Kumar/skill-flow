@@ -140,39 +140,34 @@ const deleteJob = async (req, res) => {
 };
 
 
-const displayjob = async(req, res)=>{
+const displayjob = async (req, res) => {
 
-  try {
-    // Find the 8 most recent job postings in the database
-    const recentJobPostings = await InternalJobPosting.find()
-      .sort({ publishedAt: -1 }) 
-      .limit(8); // Limit the results to 8 job postings
+    try {
+        const recentJobPostings = await InternalJobPosting.find()
+            .sort({ publishedAt: -1 })
+            .limit(8);
 
-    res.status(200).json(recentJobPostings);
+        res.status(200).json(recentJobPostings);
 
-  } catch (error) {
+    } catch (error) {
 
-    console.error("Error getting recent job postings:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
+        console.error("Error getting recent job postings:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 
 }
 
-const displayAllJobs = async(req, res)=>{
+const displayAllJobs = async (req, res) => {
 
-  try {
-    const allJobPostings = await InternalJobPosting.find()
-      .sort({ publishedAt: 1 }); // Sort by publishedAt in ascending order
+    try {
+        const allJobPostings = await InternalJobPosting.find()
+            .sort({ publishedAt: 1 });
 
-    res.status(200).json(allJobPostings);
-
-  } catch (error) {
-
-    console.error("Error getting all job postings:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-
-
+        res.status(200).json(allJobPostings);
+    } catch (error) {
+        console.error("Error getting all job postings:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 }
 
 
