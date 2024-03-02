@@ -3,7 +3,7 @@ const JobCard = ({ job }) => {
     Math.abs((new Date() - new Date(job.publishedAt)) / (1000 * 60 * 60 * 24))
   );
   return (
-    <div className="max-w-lg bg-white pt-4 px-3 border-[1.5px] rounded-xl pb-4 hover:shadow-xl cursor-pointer transition duration-300 ease-in-out">
+    <div className="max-w-lg bg-white pt-4 px-3 border-[1.5px] rounded-xl pb-4 hover:shadow-xl cursor-pointer transition duration-300 ease-in-out h-full">
       <div className="flex items-center justify-end text-sm text-slate-500">
         {day} {day > 1 ? "days ago" : "day ago"}
       </div>
