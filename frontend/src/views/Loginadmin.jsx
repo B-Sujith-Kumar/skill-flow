@@ -70,7 +70,7 @@ const Loginadmin = () => {
               <input
                 placeholder="Admin ID"
                 type="text"
-                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green tracking-wider"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none mt-4 rounded-lg focus:border-coral-green tracking-wide"
                 id="admID"
                 onChange={(e) => setAdminId(e.target.value)}
               />
@@ -80,7 +80,7 @@ const Loginadmin = () => {
               <input
                 type="password"
                 placeholder="Password"
-                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green tracking-wider"
+                className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green tracking-wide"
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -91,9 +91,7 @@ const Loginadmin = () => {
               </a>
             </div>
             <div>
-              <button
-                className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8"
-              >
+              <button className="bg-coral-green font-medium hover:rounded-full text-white px-4 py-2 rounded-sm w-full mt-8">
                 Sign In
               </button>
             </div>

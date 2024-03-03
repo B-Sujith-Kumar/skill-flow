@@ -10,6 +10,7 @@ import UpdateEmployee from "./views/UpdateEmployee";
 import JobManagement from "./components/JobManagement";
 import AddJob from "./views/AddJob";
 import DeleteJob from "./views/DeleteJob";
+import ViewAllJobs from "./views/ViewAllJobs";
 
 export default function App() {
   return (
@@ -30,6 +31,10 @@ export default function App() {
             path="/admin/job-management/delete-job"
             element={<DeleteJob />}
           />
+          <Route
+            path="/admin/job-management/view-jobs"
+            element={<ViewAllJobs />}
+          ></Route>
           <Route
             path="/admin/employee-management/add-employee"
             element={<AddEmployee />}
