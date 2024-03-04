@@ -6,6 +6,7 @@ import { BeatLoader } from "react-spinners";
 const ViewAllJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const [filtersApplied, setFiltersApplied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [salary, setSalary] = useState(0);
   const [location, setLocation] = useState("");
@@ -34,16 +35,15 @@ const ViewAllJobs = () => {
 
   const applyFilters = (salary, location, dept) => {
     setIsLoading(true);
+    setFiltersApplied(salary !== 0 || location !== "" || dept !== "");
     setTimeout(() => {
       const filtered = jobs.filter((job) => {
         const meetsSalary = salary === 0 || job.salary >= salary;
         const meetsLocation =
           location === "" || job.location.split(", ").includes(location);
         const meetsDept = dept === "" || job.department.includes(dept);
-        console.log(meetsSalary, meetsLocation, meetsDept);
         return meetsSalary && meetsLocation && meetsDept;
       });
-
       setFilteredJobs(filtered);
       setIsLoading(false);
     }, 500);
@@ -152,14 +152,14 @@ const ViewAllJobs = () => {
                 </div>
               </>
             </div>
-            {!isLoading && filteredJobs.length === 0 && salary === 0 && (
+            {!isLoading && !filtersApplied && (
               <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
                 {jobs.map((job, i) => (
                   <AllJobCard key={i} job={job} />
                 ))}
               </section>
             )}
-            {!isLoading && filteredJobs.length > 0 && (
+            {!isLoading && filtersApplied && filteredJobs.length > 0 && (
               <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
                 {filteredJobs.map((job, i) => (
                   <AllJobCard key={i} job={job} />
@@ -168,7 +168,7 @@ const ViewAllJobs = () => {
             )}
           </div>
         </div>
-        {!isLoading && salary !== 0 && filteredJobs.length === 0 && (
+        {!isLoading && filtersApplied && filteredJobs.length === 0 && (
           <div className="flex flex-col items-center justify-center mt-44">
             <p className="text-center text-xl font-medium">
               Sorry, no jobs found with the given filters.
