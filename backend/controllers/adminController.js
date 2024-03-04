@@ -170,6 +170,16 @@ const displayAllJobs = async (req, res) => {
     }
 }
 
+const getDepartments = async (req, res) => {
+    try {
+        const departments = await InternalJobPosting.distinct("department");
+        res.status(200).json(departments);
+    } catch (err) {
+        console.log("Error getting the departments:", err.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
 
 module.exports = {
     adminLogin,
@@ -178,4 +188,5 @@ module.exports = {
     deleteJob,
     displayjob,
     displayAllJobs,
+    getDepartments
 };

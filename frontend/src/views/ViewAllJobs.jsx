@@ -9,6 +9,8 @@ const ViewAllJobs = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [salary, setSalary] = useState(0);
   const [location, setLocation] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [dept, setDept] = useState("");
   const thumbPosition = (salary / 50) * 100;
   const thumbOffset = "-20px";
   useEffect(() => {
@@ -18,31 +20,28 @@ const ViewAllJobs = () => {
         .then((res) => res.json())
         .then((data) => {
           setJobs(data);
+        });
+      await fetch("http://localhost:3000/api/admin/departments")
+        .then((res) => res.json())
+        .then((data) => {
+          setDepartments(data);
           setIsLoading(false);
+          console.log(data);
         });
     };
     fetchJobs();
   }, []);
-  //   const salaryOnChange = (e) => {
-  //     const newSalary = e.target.value;
-  //     setSalary(e.target.value);
-  //     if (salary !== 0) {
-  //       setIsLoading(true);
-  //       setTimeout(() => {
-  //         const filtered = jobs.filter((job) => job.salary >= newSalary);
-  //         setFilteredJobs(filtered);
-  //         setIsLoading(false);
-  //       }, 500);
-  //     }
-  //   };
-  const applyFilters = (salary, location) => {
+
+  const applyFilters = (salary, location, dept) => {
     setIsLoading(true);
     setTimeout(() => {
       const filtered = jobs.filter((job) => {
         const meetsSalary = salary === 0 || job.salary >= salary;
-        if (location === "") return meetsSalary;
-        const meetsLocation = job.location.split(", ").includes(location);
-        return meetsSalary && meetsLocation;
+        const meetsLocation =
+          location === "" || job.location.split(", ").includes(location);
+        const meetsDept = dept === "" || job.department.includes(dept);
+        console.log(meetsSalary, meetsLocation, meetsDept);
+        return meetsSalary && meetsLocation && meetsDept;
       });
 
       setFilteredJobs(filtered);
@@ -52,16 +51,20 @@ const ViewAllJobs = () => {
 
   const salaryOnChange = (e) => {
     const newSalary = Number(e.target.value);
-    if (newSalary !== salary)
-        applyFilters(newSalary, location);
+    if (newSalary !== salary) applyFilters(newSalary, location, dept);
     setSalary(newSalary);
   };
 
   const locationOnChange = (e) => {
     const newLocation = e.target.value;
-    if (newLocation !== location)
-        applyFilters(salary, newLocation);
+    if (newLocation !== location) applyFilters(salary, newLocation, dept);
     setLocation(newLocation);
+  };
+
+  const departmentOnChange = (e) => {
+    const newDept = e.target.value;
+    if (newDept !== dept) applyFilters(salary, location, newDept);
+    setDept(newDept);
   };
   return (
     <div>
@@ -76,7 +79,8 @@ const ViewAllJobs = () => {
                     htmlFor="salary-range"
                     className="text-lg font-medium mb-3"
                   >
-                    Salary
+                    Salary{" "}
+                    <span className="text-slate-600 text-sm">(in LPA)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -125,6 +129,27 @@ const ViewAllJobs = () => {
                     </select>
                   </div>
                 </div>
+                <div className="flex flex-col">
+                  <label htmlFor="dept-select" className="text-lg font-medium">
+                    Department
+                  </label>
+                  <div className="">
+                    <select
+                      id="dept-select"
+                      name="department"
+                      value={dept}
+                      onChange={departmentOnChange}
+                      className="form-select block w-56 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-1 focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 text-md py-1 bg-slate-200"
+                    >
+                      <option value="">Select a department</option>
+                      {departments.map((department, i) => (
+                        <option key={i} value={department}>
+                          {department}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </>
             </div>
             {!isLoading && filteredJobs.length === 0 && salary === 0 && (
@@ -146,7 +171,7 @@ const ViewAllJobs = () => {
         {!isLoading && salary !== 0 && filteredJobs.length === 0 && (
           <div className="flex flex-col items-center justify-center mt-44">
             <p className="text-center text-xl font-medium">
-              No jobs found with the given salary range.
+              Sorry, no jobs found with the given filters.
             </p>
           </div>
         )}
