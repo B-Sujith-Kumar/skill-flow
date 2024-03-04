@@ -23,17 +23,45 @@ const ViewAllJobs = () => {
     };
     fetchJobs();
   }, []);
+  //   const salaryOnChange = (e) => {
+  //     const newSalary = e.target.value;
+  //     setSalary(e.target.value);
+  //     if (salary !== 0) {
+  //       setIsLoading(true);
+  //       setTimeout(() => {
+  //         const filtered = jobs.filter((job) => job.salary >= newSalary);
+  //         setFilteredJobs(filtered);
+  //         setIsLoading(false);
+  //       }, 500);
+  //     }
+  //   };
+  const applyFilters = (salary, location) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const filtered = jobs.filter((job) => {
+        const meetsSalary = salary === 0 || job.salary >= salary;
+        if (location === "") return meetsSalary;
+        const meetsLocation = job.location.split(", ").includes(location);
+        return meetsSalary && meetsLocation;
+      });
+
+      setFilteredJobs(filtered);
+      setIsLoading(false);
+    }, 500);
+  };
+
   const salaryOnChange = (e) => {
-    const newSalary = e.target.value;
-    setSalary(e.target.value);
-    if (salary !== 0) {
-      setIsLoading(true);
-      setTimeout(() => {
-        const filtered = jobs.filter((job) => job.salary >= newSalary);
-        setFilteredJobs(filtered);
-        setIsLoading(false);
-      }, 500);
-    }
+    const newSalary = Number(e.target.value);
+    if (newSalary !== salary)
+        applyFilters(newSalary, location);
+    setSalary(newSalary);
+  };
+
+  const locationOnChange = (e) => {
+    const newLocation = e.target.value;
+    if (newLocation !== location)
+        applyFilters(salary, newLocation);
+    setLocation(newLocation);
   };
   return (
     <div>
@@ -85,7 +113,7 @@ const ViewAllJobs = () => {
                       id="location-select"
                       name="location"
                       value={location}
-                      onChange={(e) => setLocation(e.target.value)}
+                      onChange={locationOnChange}
                       className="form-select block w-52 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-1 focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 text-md py-1 bg-slate-200"
                     >
                       <option value="">Select a location</option>
