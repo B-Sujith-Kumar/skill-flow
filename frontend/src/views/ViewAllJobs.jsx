@@ -11,6 +11,7 @@ const ViewAllJobs = () => {
   const [salary, setSalary] = useState(0);
   const [location, setLocation] = useState("");
   const [departments, setDepartments] = useState([]);
+  const [skill, setSkill] = useState("");
   const [dept, setDept] = useState("");
   const thumbPosition = (salary / 50) * 100;
   const thumbOffset = "-20px";
@@ -33,16 +34,33 @@ const ViewAllJobs = () => {
     fetchJobs();
   }, []);
 
-  const applyFilters = (salary, location, dept) => {
+  const applyFilters = (salary, location, dept, skill) => {
     setIsLoading(true);
-    setFiltersApplied(salary !== 0 || location !== "" || dept !== "");
+    setFiltersApplied(
+      salary !== 0 || location !== "" || dept !== "" || skill !== ""
+    );
     setTimeout(() => {
       const filtered = jobs.filter((job) => {
         const meetsSalary = salary === 0 || job.salary >= salary;
         const meetsLocation =
           location === "" || job.location.split(", ").includes(location);
         const meetsDept = dept === "" || job.department.includes(dept);
-        return meetsSalary && meetsLocation && meetsDept;
+        skill = skill.trim();
+        const meetsSkill =
+          skill === "" ||
+          (job.skills &&
+            job.skills.some(
+              (s) => s && s.toLowerCase().includes(skill.toLowerCase())
+            ));
+        // console.log(
+        //   "Checking jobs for undefined skills",
+        //   jobs.filter(
+        //     (job) =>
+        //       !job.skills || job.skills.some((s) => typeof s === "undefined")
+        //   )
+        // );
+
+        return meetsSalary && meetsLocation && meetsDept && meetsSkill;
       });
       setFilteredJobs(filtered);
       setIsLoading(false);
@@ -51,21 +69,37 @@ const ViewAllJobs = () => {
 
   const salaryOnChange = (e) => {
     const newSalary = Number(e.target.value);
-    if (newSalary !== salary) applyFilters(newSalary, location, dept);
+    if (newSalary !== salary) applyFilters(newSalary, location, dept, skill);
     setSalary(newSalary);
   };
 
   const locationOnChange = (e) => {
     const newLocation = e.target.value;
-    if (newLocation !== location) applyFilters(salary, newLocation, dept);
+    if (newLocation !== location)
+      applyFilters(salary, newLocation, dept, skill);
     setLocation(newLocation);
   };
 
   const departmentOnChange = (e) => {
     const newDept = e.target.value;
-    if (newDept !== dept) applyFilters(salary, location, newDept);
+    if (newDept !== dept) applyFilters(salary, location, newDept, skill);
     setDept(newDept);
   };
+
+  const skillOnChange = (e) => {
+    const newSkill = e.target.value;
+    setSkill(newSkill);
+    applyFilters(salary, location, dept, newSkill);
+  };
+
+  const handleClear = () => {
+    setSalary(0);
+    setLocation("");
+    setDept("");
+    setSkill("");
+    setFiltersApplied(false);
+  };
+
   return (
     <div>
       <AdminSidebar />
@@ -120,7 +154,7 @@ const ViewAllJobs = () => {
                       onChange={locationOnChange}
                       className="form-select block w-52 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-1 focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 text-md py-1 bg-slate-200"
                     >
-                      <option value="">Select a location</option>
+                      <option value="">Select a location...</option>
                       <option value="Hyderabad">Hyderabad</option>
                       <option value="New Delhi">New Delhi</option>
                       <option value="Mumbai">Mumbai</option>
@@ -139,9 +173,9 @@ const ViewAllJobs = () => {
                       name="department"
                       value={dept}
                       onChange={departmentOnChange}
-                      className="form-select block w-56 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-1 focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 text-md py-1 bg-slate-200"
+                      className="form-select block w-56 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-1 focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 text-md py-1 bg-slate-200 max-sm:w-52"
                     >
-                      <option value="">Select a department</option>
+                      <option value="">Select a department...</option>
                       {departments.map((department, i) => (
                         <option key={i} value={department}>
                           {department}
@@ -149,6 +183,28 @@ const ViewAllJobs = () => {
                       ))}
                     </select>
                   </div>
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="skill-search" className="text-lg font-medium">
+                    Skill
+                  </label>
+                  <input
+                    type="text"
+                    id="skill-search"
+                    name="skill"
+                    value={skill}
+                    onChange={skillOnChange}
+                    placeholder="Enter a skill..."
+                    className="form-input block w-full rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring mt-4 px-2 focus:ring-blue-200 focus:ring-opacity-50  text-md py-[3px] bg-gray-200"
+                  />
+                </div>
+                <div className="mt-[45px] max-sm:mt-5">
+                  <button
+                    className="text-coral-green border-coral-green border-[2px] px-2 rounded-md hover:text-white hover:bg-coral-green transition ease-in-out"
+                    onClick={handleClear}
+                  >
+                    Clear all filters
+                  </button>
                 </div>
               </>
             </div>
