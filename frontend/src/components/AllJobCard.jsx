@@ -4,10 +4,10 @@ const AllJobCard = ({ job }) => {
   const day = Math.round(
     Math.abs((new Date() - new Date(job.publishedAt)) / (1000 * 60 * 60 * 24))
   );
-  
+
   return (
-    <div>
-      <div className="font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl mx-auto shadow-lg mt-8 cursor-pointer transition duration-300 ease-in-out hover:shadow-xl">
+    <div className="">
+      <div className="font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl mx-auto shadow-lg cursor-pointer transition duration-300 ease-in-out hover:shadow-xl mt-8 border-[1px] border-slate-200">
         <div className="flex justify-between flex-wrap-reverse">
           <div>
             <h2 className="max-[611px]:mt-3">{job.title}</h2>
@@ -55,7 +55,7 @@ const AllJobCard = ({ job }) => {
           </div>
           <img src={logo} alt="" width={65} className="border rounded-xl" />
         </div>
-        <div className="flex gap-3 mt-2 max-[611px]:mt-4">
+        <div className="flex gap-3 mt-3 max-[611px]:mt-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
@@ -69,10 +69,10 @@ const AllJobCard = ({ job }) => {
             {job.description}
           </span>
         </div>
-        <div className="flex gap-x-4 mt-2 flex-wrap gap-y-1 items-center">
+        <div className="flex gap-x-4 mt-3 flex-wrap gap-y-1 items-center">
           {job.skills.map(
             (skill, index) =>
-              index < 4 && (
+              index < 3 && (
                 <li key={index} className="text-slate-500">
                   <span className="text-slate-500 text-xs" key={index}>
                     {skill}

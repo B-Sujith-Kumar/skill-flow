@@ -52,13 +52,6 @@ const ViewAllJobs = () => {
             job.skills.some(
               (s) => s && s.toLowerCase().includes(skill.toLowerCase())
             ));
-        // console.log(
-        //   "Checking jobs for undefined skills",
-        //   jobs.filter(
-        //     (job) =>
-        //       !job.skills || job.skills.some((s) => typeof s === "undefined")
-        //   )
-        // );
 
         return meetsSalary && meetsLocation && meetsDept && meetsSkill;
       });
@@ -106,7 +99,7 @@ const ViewAllJobs = () => {
       <div className="min-h-screen main-content bg-dashboard font-rubik pb-8 overflow-hidden">
         <div className="min-w-full min-h-full flex ml-6 pr-12 max-md:justify-center">
           <div>
-            <div className="flex flex-row items-start py-5 gap-x-12 gap-y-4 flex-wrap mt-4 px-4 rounded-md">
+            <div className="flex flex-row items-start py-5 gap-x-8 gap-y-4 flex-wrap mt-4 pl-8 rounded-xl border-[1px] bg-[url('./assets/images/book-bg.png')] bg-white w-full mr-6">
               <>
                 <div className="flex flex-col space-y-1">
                   <label
@@ -216,7 +209,7 @@ const ViewAllJobs = () => {
               </section>
             )}
             {!isLoading && filtersApplied && filteredJobs.length > 0 && (
-              <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
+              <section className="grid grid-cols-2 gap-x-6 gap-y-8 max-md:grid-cols-1">
                 {filteredJobs.map((job, i) => (
                   <AllJobCard key={i} job={job} />
                 ))}
