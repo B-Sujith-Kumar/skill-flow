@@ -1,8 +1,12 @@
 import companyLogo from "../assets/images/78730.gif";
-const JobDetails = ({ jobDetails }) => {
+const JobDetails = ({ jobDetails, isIndividual }) => {
   return (
     <div className="mb-8">
-      <div className="font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl mx-auto shadow-lg">
+      <div
+        className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
+          isIndividual ? "" : "mx-auto"
+        } shadow-lg`}
+      >
         <div className="border-b-[1.5px] flex justify-between items-center mt-3 pb-5">
           <div className="">
             <h2 className="text-xl font-medium text-slate-800">
@@ -71,7 +75,11 @@ const JobDetails = ({ jobDetails }) => {
           </span>
         </p>
       </div>
-      <div className="font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl mx-auto mt-8 shadow-lg">
+      <div
+        className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
+          isIndividual ? "" : "mx-auto"
+        } mt-8 shadow-lg`}
+      >
         <p className="text-md font-medium">Job Description</p>
         <p className="mt-6 text-[15px]">
           <span className="text-slate-800 font-medium">Project Role : </span>

@@ -174,7 +174,12 @@ const JobManagement = () => {
         {!isLoading && jobs.length > 0 && !searched && (
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {jobs.map((job) => (
-              <JobCard key={job.jobid} job={job} />
+              <Link
+                to={`/admin/job-management/view-job/${job.jobid}`}
+                key={job.jobid}
+              >
+                <JobCard key={job.jobid} job={job} />
+              </Link>
             ))}
           </div>
         )}
@@ -188,7 +193,12 @@ const JobManagement = () => {
         {!isLoading && searched && filteredJobs.length > 0 && (
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {filteredJobs.map((job) => (
-              <JobCard key={job.jobid} job={job} />
+              <Link
+                to={`/admin/job-management/view-job/${job.jobid}`}
+                key={job.jobid}
+              >
+                <JobCard job={job} />
+              </Link>
             ))}
           </div>
         )}
@@ -199,17 +209,19 @@ const JobManagement = () => {
         )}
         <div className="flex items-center justify-center mt-8 gap-6 flex-wrap">
           <Link to="/admin/job-management/view-jobs">
-            <button className="border-2 px-4 py-2 border-blue-600 text-blue-600 flex items-center gap-2 hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out rounded-md">
-              View More{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                width={14}
-                fill="currentColor"
-              >
-                <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-              </svg>
-            </button>
+            {!isLoading && (
+              <button className="border-2 px-4 py-2 border-blue-600 text-blue-600 flex items-center gap-2 hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out rounded-md">
+                View More{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  width={14}
+                  fill="currentColor"
+                >
+                  <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                </svg>
+              </button>
+            )}
           </Link>
           {searched && (
             <button

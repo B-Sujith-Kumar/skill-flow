@@ -11,6 +11,7 @@ import JobManagement from "./components/JobManagement";
 import AddJob from "./views/AddJob";
 import DeleteJob from "./views/DeleteJob";
 import ViewAllJobs from "./views/ViewAllJobs";
+import IndividualJobPage from "./views/IndividualJobPage";
 
 export default function App() {
   return (
@@ -46,6 +47,10 @@ export default function App() {
           <Route
             path="/admin/employee-management/update-employee"
             element={<UpdateEmployee />}
+          />
+          <Route
+            path="/admin/job-management/view-job/:id"
+            element={<IndividualJobPage />}
           />
           <Route
             path="/user/dashboard"
