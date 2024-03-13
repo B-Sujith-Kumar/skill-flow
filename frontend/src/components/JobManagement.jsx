@@ -174,12 +174,14 @@ const JobManagement = () => {
         {!isLoading && jobs.length > 0 && !searched && (
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {jobs.map((job) => (
-              <Link
-                to={`/admin/job-management/view-job/${job.jobid}`}
+              <a
+                href={`/admin/job-management/view-job/${job.jobid}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 key={job.jobid}
               >
-                <JobCard key={job.jobid} job={job} />
-              </Link>
+                <JobCard job={job} />
+              </a>
             ))}
           </div>
         )}
@@ -193,12 +195,14 @@ const JobManagement = () => {
         {!isLoading && searched && filteredJobs.length > 0 && (
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {filteredJobs.map((job) => (
-              <Link
-                to={`/admin/job-management/view-job/${job.jobid}`}
+              <a
+                href={`/admin/job-management/view-job/${job.jobid}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 key={job.jobid}
               >
                 <JobCard job={job} />
-              </Link>
+              </a>
             ))}
           </div>
         )}

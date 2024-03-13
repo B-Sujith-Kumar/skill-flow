@@ -2,7 +2,6 @@ import AdminSidebar from "../components/AdminSidebar";
 import { useEffect, useState } from "react";
 import AllJobCard from "../components/AllJobCard";
 import { BeatLoader } from "react-spinners";
-import { Link } from "react-router-dom";
 
 const ViewAllJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -204,25 +203,29 @@ const ViewAllJobs = () => {
             </div>
             {!isLoading && !filtersApplied && (
               <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
-                {jobs.map((job, i) => (
-                  <Link
-                    to={`/admin/job-management/view-job/${job.jobid}`}
+                {jobs.map((job) => (
+                  <a
+                    href={`/admin/job-management/view-job/${job.jobid}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     key={job.jobid}
                   >
-                    <AllJobCard key={i} job={job} />
-                  </Link>
+                    <AllJobCard job={job} />
+                  </a>
                 ))}
               </section>
             )}
             {!isLoading && filtersApplied && filteredJobs.length > 0 && (
               <section className="grid grid-cols-2 gap-x-6 gap-y-8 max-md:grid-cols-1">
-                {filteredJobs.map((job, i) => (
-                  <Link
-                    to={`/admin/job-management/view-job/${job.jobid}`}
+                {filteredJobs.map((job) => (
+                  <a
+                    href={`/admin/job-management/view-job/${job.jobid}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     key={job.jobid}
                   >
-                    <AllJobCard key={i} job={job} />
-                  </Link>
+                    <AllJobCard job={job} />
+                  </a>
                 ))}
               </section>
             )}
