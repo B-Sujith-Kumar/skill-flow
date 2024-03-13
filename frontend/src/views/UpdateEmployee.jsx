@@ -17,12 +17,18 @@ const UpdateEmployee = () => {
     setError("");
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toastr.error("You need to login first!", "Error");
+        return;
+      }
       const response = await fetch(
         `http://localhost:3000/api/admin/search/${employeeID}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -107,16 +113,22 @@ const UpdateEmployee = () => {
         },
       };
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toastr.error("You need to login first!", "Error");
+          return;
+        }
         const response = await fetch("http://localhost:3000/api/admin/update", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(empUpdate),
         });
         if (response.ok) {
           toastr.success("Updated employee successfully!", "Success");
-          handleSearch();
+          //   handleSearch();
         } else if (!response.ok) {
           toastr.error("Uh oh! Failed to update employee", "Error");
         }

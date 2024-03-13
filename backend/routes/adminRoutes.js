@@ -5,6 +5,7 @@ const adminController = require("../controllers/adminController");
 const employeeController = require("../controllers/employeeController");
 const bcrypt = require("bcryptjs");
 const adminModel = require("../models/adminModel");
+const authenticateToken = require("../middleware/authenticateToken");
 
 router.post("/", async (req, res) => {
     console.log(req.body);
@@ -30,19 +31,19 @@ router.post("/", async (req, res) => {
 
 router.post("/login", adminController.adminLogin);
 
-router.post("/create", employeeController.empCreate);
+router.post("/create", authenticateToken, employeeController.empCreate);
 
-router.post("/update", employeeController.empUpdate);
+router.post("/update", authenticateToken, employeeController.empUpdate);
 
-router.post("/delete", employeeController.deleteEmployee);
+router.post("/delete", authenticateToken, employeeController.deleteEmployee);
 
-router.get('/search/:employeeId', employeeController.searchEmployee);
+router.get('/search/:employeeId', authenticateToken, employeeController.searchEmployee);
 
-router.post("/addJob", adminController.jobCreate);
+router.post("/addJob", authenticateToken, adminController.jobCreate);
 
 router.get("/searchJob/:jobid", adminController.searchJob);
 
-router.post("/deleteJob", adminController.deleteJob);
+router.post("/deleteJob", authenticateToken, adminController.deleteJob);
 
 router.get("/displayJobs", adminController.displayjob);
 

@@ -20,12 +20,21 @@ const DeleteEmployee = () => {
     setEmployeeDetails(null);
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toastr.error(
+          "You need to be logged in to perform this action",
+          "Error"
+        );
+        return;
+      }
       const response = await fetch(
         `http://localhost:3000/api/admin/search/${employeeID}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -57,15 +66,38 @@ const DeleteEmployee = () => {
 
   const handleDeleteConfirm = async () => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toastr.error(
+          "You need to be logged in to perform this action",
+          "Error"
+        );
+        return;
+      }
       const response = await fetch("http://localhost:3000/api/admin/delete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ employeeID }),
       });
       if (!response.ok) {
-        toastr.error("Uh oh, there was a problem. Please try again", "Error");
+        if (response.status === 401) {
+          toastr.error(
+            "You need to be logged in to perform this action",
+            "Error"
+          );
+          setError("You need to be logged in to perform this action");
+          return;
+        } else if (response.status === 403) {
+          toastr.error("Invalid token", "Error");
+          setError("Failed to fetch employee details");
+          return;
+        } else {
+          toastr.error("Uh oh, there was a problem. Please try again", "Error");
+          setError("Failed to fetch employee details");
+        }
       } else if (response.ok && response.status === 200) {
         toastr.success("Employee deleted successfully", "Success");
         setEmployeeDetails(null);

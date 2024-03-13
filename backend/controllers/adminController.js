@@ -25,7 +25,7 @@ const adminLogin = async (req, res) => {
         };
         const token = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
-        res.json({ success, token });
+        res.json({ success, token, isAdmin: true });
     } catch (error) {
         console.error("Error during admin login:", error);
         res.status(500).json({ message: "Internal server error" });

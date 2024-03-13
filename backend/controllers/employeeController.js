@@ -53,14 +53,14 @@ const empCreate = async (req, res) => {
             workLocation,
         } = req.body;
 
-        let fullName = firstName + " " + middleName + " " + lastName;
-        let emailId = email;
-        let empId = employeeID;
+        let fullName = firstName + ' ' + middleName + ' ' + lastName;
         const salt = await bcrypt.genSalt(10);
         password = await bcrypt.hash(password, salt);
-        console.log(password);
         dateOfBirth = new Date(dateOfBirth);
         joiningDate = new Date(joiningDate);
+
+        console.log(req.body);
+
 
         const newEmployee = await employeeCreation.create({
             personalInformation: {
@@ -93,40 +93,38 @@ const empCreate = async (req, res) => {
             },
         });
 
-        res.status(201).json({ success: true, employee: newEmployee });
+        console.log("New Employee : ", newEmployee);
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
+//         const transporter = nodemailer.createTransport({
+//             service: "gmail",
+//             host: "smtp.gmail.com",
+//             port: 587,
+//             secure: false,
+//             auth: {
+//                 user: process.env.USER,
+//                 pass: process.env.PASSCODE,
+//             },
+//         });
 
-            auth: {
-              user: process.env.USER,
-              pass: process.env.PASSCODE,
-            },
-          });
+//         const mailOptions = {
+//             from: {
+//                 name: "SkillFlow",
+//                 address: process.env.USER,
+//             },
+//             to: email,
+//             subject: "Account ID and Password",
+//             text: `Welcome to SkillFlow, Congratulations, Your account has been created successfully.
+// Your EmployeeId is ${employeeID} and your Initial Password is password123.
+// Kindly Login to your Account to complete the Profile.`,
+//         };
 
-          const mailOptions = {
-            from: {
-                name: "SkillFlow",
-                address:process.env.USER,
-            },
-            to: emailId,
-            subject: "Account ID and Password",
-            text: `Welcome to SkillFLow, Congratulations , Your account has been created successfully. 
-Your EmployeeId is ${empId} and your Initial Password is password123. 
-Kindly Login to your Account to complete the Profile : `,
-          };
+//         await transporter.sendMail(mailOptions);
+//         console.log("Email sent successfully.");
 
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              return res.send({ msg: "error" });
-            }
-            res.send({ msg: "Password sent" });
-          });
+        res.status(201).json({ success: true, employee: newEmployee, message: "Employee created and email sent successfully." });
 
-     } catch (error) {
+
+    } catch (error) {
         if (error.code === 11000) {
             res
                 .status(400)
@@ -170,6 +168,7 @@ const empUpdate = async (req, res) => {
 
 const deleteEmployee = async (req, res) => {
     try {
+        console.log("Entered");
         const { employeeID } = req.body;
         const deletedEmployee = await employeeCreation.findOneAndDelete({
             "credentials.employeeID": employeeID,

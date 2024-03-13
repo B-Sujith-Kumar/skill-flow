@@ -107,10 +107,19 @@ const AddJob = () => {
       console.log("Form submitted");
       console.log(JSON.stringify(formData));
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toastr.error(
+            "You are not authorized to perform this action",
+            "Error"
+          );
+          return;
+        }
         const response = await fetch("http://localhost:3000/api/admin/addJob", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         });

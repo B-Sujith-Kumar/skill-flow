@@ -41,16 +41,25 @@ const AddEmployee = () => {
     if (Object.keys(errors).length === 0) {
       const updatedFormData = {
         ...formData,
-        fullName: formData.firstName + formData.middleName + formData.lastName,
+        fullName: formData.firstName + " " +  formData.middleName + " " +  formData.lastName,
       };
 
       setFormData(updatedFormData);
-      console.log(formData);
+      console.log("Form data : ", formData);
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toastr.error(
+            "You need to be logged in to perform this action",
+            "Error"
+          );
+          return;
+        }
         const response = await fetch("http://localhost:3000/api/admin/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         });
