@@ -12,6 +12,7 @@ import AddJob from "./views/AddJob";
 import DeleteJob from "./views/DeleteJob";
 import ViewAllJobs from "./views/ViewAllJobs";
 import IndividualJobPage from "./views/IndividualJobPage";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 export default function App() {
   return (
@@ -22,36 +23,38 @@ export default function App() {
           <Route path="/admin/login" element={<Loginadmin />} />
           <Route path="/user/login" element={<Loginuser />} />
           <Route path="/admin/dashboard" element={<Admindashboard />} />
-          <Route
-            path="/admin/employee-management"
-            element={<EmployeeManagement />}
-          />
-          <Route path="/admin/job-management" element={<JobManagement />} />
-          <Route path="/admin/job-management/add-job" element={<AddJob />} />
-          <Route
-            path="/admin/job-management/delete-job"
-            element={<DeleteJob />}
-          />
-          <Route
-            path="/admin/job-management/view-jobs"
-            element={<ViewAllJobs />}
-          ></Route>
-          <Route
-            path="/admin/employee-management/add-employee"
-            element={<AddEmployee />}
-          />
-          <Route
-            path="/admin/employee-management/delete-employee"
-            element={<DeleteEmployee />}
-          />
-          <Route
-            path="/admin/employee-management/update-employee"
-            element={<UpdateEmployee />}
-          />
-          <Route
-            path="/admin/job-management/view-job/:id"
-            element={<IndividualJobPage />}
-          />
+          <Route element={<PrivateRoutes />}>
+            <Route
+              path="/admin/employee-management"
+              element={<EmployeeManagement />}
+            />
+            <Route path="/admin/job-management" element={<JobManagement />} />
+            <Route path="/admin/job-management/add-job" element={<AddJob />} />
+            <Route
+              path="/admin/job-management/delete-job"
+              element={<DeleteJob />}
+            />
+            <Route
+              path="/admin/job-management/view-jobs"
+              element={<ViewAllJobs />}
+            ></Route>
+            <Route
+              path="/admin/employee-management/add-employee"
+              element={<AddEmployee />}
+            />
+            <Route
+              path="/admin/employee-management/delete-employee"
+              element={<DeleteEmployee />}
+            />
+            <Route
+              path="/admin/employee-management/update-employee"
+              element={<UpdateEmployee />}
+            />
+            <Route
+              path="/admin/job-management/view-job/:id"
+              element={<IndividualJobPage />}
+            />
+          </Route>
           <Route
             path="/user/dashboard"
             element={<h1 className="">User Dashboard</h1>}

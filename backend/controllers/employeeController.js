@@ -148,10 +148,8 @@ const empUpdate = async (req, res) => {
             return res.status(404).json({ success: false, message: "Employee not found." });
         }
 
-        // Merge existing data with updatedData to preserve unchanged fields
         const mergedData = { ...existingEmployee.toObject(), ...updatedData };
 
-        // Use findOneAndUpdate to update the employee
         const updatedEmployee = await employeeCreation.findOneAndUpdate(
             { "credentials.employeeID": employeeID },
             { $set: mergedData },
@@ -190,7 +188,6 @@ const searchEmployee = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
 
-        // Use findOne to find an employee based on the employeeId
         const foundEmployee = await employeeCreation.findOne({
             "credentials.employeeID": employeeId
         });

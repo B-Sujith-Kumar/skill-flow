@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
 
 const AdminSidebar = () => {
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+    window.location.href = "/admin/login";
+  };
   return (
     <aside className="flex flex-col items-center font-rubik gap-10 px-4 py-4 fixed top-0 left-0 max-w-xs h-full pl-6 max-[1200px]:hidden">
       <div>
@@ -55,7 +60,10 @@ const AdminSidebar = () => {
           </svg>
           Profile
         </li>
-        <li className="cursor-pointer flex gap-5 items-center">
+        <li
+          className="cursor-pointer flex gap-5 items-center"
+          onClick={handleLogOut}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"

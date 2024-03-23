@@ -7,14 +7,12 @@ require("dotenv").config();
 const adminLogin = async (req, res) => {
     let success = false;
     const { adminId, password } = req.body;
-    console.log(adminId, password);
     try {
         let admin = await Admin.findOne({ adminId: adminId });
         if (!admin) {
             return res.status(400).json({ success, message: "Invalid credentials" });
         }
         const passwordMatch = await bcrypt.compare(password.trim(), admin.password);
-        console.log(passwordMatch);
         if (!passwordMatch) {
             return res.status(400).json({ success, message: "Invalid credentials" });
         }

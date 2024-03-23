@@ -28,6 +28,7 @@ const Loginadmin = () => {
       const data = await response.json();
       if (data.success) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("isAdmin", data.isAdmin);
         nav("/admin/dashboard");
       }
       console.log(data);
