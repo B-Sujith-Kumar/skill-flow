@@ -1,7 +1,17 @@
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const isAdmin = localStorage.getItem("isAdmin");
+  console.log(isAdmin);
+  const nav = useNavigate();
+  useEffect(() => {
+    if (isAdmin) {
+      nav("/admin/dashboard");
+    }
+  }, []);
   return (
     <>
       <div className="max-h-screen overflow-hidden">
