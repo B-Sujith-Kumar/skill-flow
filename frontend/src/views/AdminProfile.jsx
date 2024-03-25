@@ -1,29 +1,64 @@
 import { useState } from "react";
 import AdminSidebar from "../components/AdminSidebar";
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 const AdminProfile = () => {
-  const [oldPassword, setOldPassword] = useState("");
+  const [currentPassword, setcurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const handleClick = () => {
+  const handleClick = async () => {
     const errors = validateInputs();
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
-      console.log("Successful");
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toastr.error(
+            "You are not authorized to perform this action",
+            "Error"
+          );
+          return;
+        }
+        const response = await fetch(
+          "http://localhost:3000/api/admin/adminProfile",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              currentPassword,
+              newPassword,
+              confirmNewPassword,
+            }),
+          }
+        );
+        if (!response.ok) {
+          toastr.error("Uh oh! Check the details", "Error");
+        } else {
+          toastr.success("Password changed successfully!", "Success");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     } else console.log(errors);
   };
   const validateInputs = () => {
     let errors = {};
-    if (!oldPassword.trim()) {
-      errors.oldPassword = "This field is required";
+    if (!currentPassword.trim()) {
+      errors.currentPassword = "This field is required";
     }
     if (!newPassword.trim()) {
       errors.newPassword = "This field is required";
     }
-    if (!confirmPassword.trim()) {
-      errors.confirmPassword = "This field is required";
+    if (!confirmNewPassword.trim()) {
+      errors.confirmNewPassword = "This field is required";
     }
-    if (newPassword !== confirmPassword) {
-      errors.confirmPassword = "New password and confirm password are not same";
+    if (newPassword !== confirmNewPassword) {
+      errors.confirmNewPassword =
+        "New password and confirm password are not same";
     }
     setErrors(errors);
     return errors;
@@ -46,11 +81,13 @@ const AdminProfile = () => {
             <input
               type="password"
               className="py-1 w-60 rounded-sm outline-none border-[2px] px-2 max-[544px]:w-full"
-              onChange={(e) => setOldPassword(e.target.value)}
+              onChange={(e) => setcurrentPassword(e.target.value)}
             />
           </div>
-          {errors.oldPassword && (
-            <p className="text-red-600 text-sm mb-3">{errors.oldPassword}</p>
+          {errors.currentPassword && (
+            <p className="text-red-600 text-sm mb-3">
+              {errors.currentPassword}
+            </p>
           )}
           <div className="flex gap-[103px] mb-2 items-center max-[544px]:flex-col max-[544px]:gap-4 max-[544px]:items-start">
             <p className="font-medium">New password : </p>
@@ -68,12 +105,12 @@ const AdminProfile = () => {
             <input
               type="password"
               className="py-1 w-60 rounded-sm outline-none border-[2px] px-2 max-[544px]:w-full"
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => setconfirmNewPassword(e.target.value)}
             />
           </div>
-          {errors.confirmPassword && (
+          {errors.confirmNewPassword && (
             <p className="text-red-600 text-sm mb-3">
-              {errors.confirmPassword}
+              {errors.confirmNewPassword}
             </p>
           )}
           <div className="mt-8">

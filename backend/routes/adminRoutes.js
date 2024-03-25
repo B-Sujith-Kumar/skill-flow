@@ -51,6 +51,10 @@ router.get("/allJobs", adminController.displayAllJobs);
 
 router.get("/departments", adminController.getDepartments);
 
+router.post("/adminProfile", authenticateToken, adminController.adminProfile);
+
+
+
 
 
 module.exports = router;

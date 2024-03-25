@@ -178,6 +178,39 @@ const getDepartments = async (req, res) => {
     }
 }
 
+const adminProfile = async(req,res) => {
+    try {
+        const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    
+        const adminId = "160121737107";
+        const admin = await Admin.findOne({ adminId });
+    
+        if (!admin) {
+          return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+    
+        const passwordMatch = await bcrypt.compare(currentPassword, admin.password);
+        if (!passwordMatch) {
+          return res.status(400).json({ success: false, message: 'Current password is incorrect.' });
+        }
+    
+        if (newPassword !== confirmNewPassword) {
+          return res.status(400).json({ success: false, message: 'New password and confirm new password do not match.' });
+        }
+    
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    
+        admin.password = hashedNewPassword;
+        await admin.save();
+    
+        res.status(200).json({ success: true, message: 'Password reset successfully.' });
+      } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+      }
+
+}
+
 
 module.exports = {
     adminLogin,
@@ -186,5 +219,6 @@ module.exports = {
     deleteJob,
     displayjob,
     displayAllJobs,
-    getDepartments
+    getDepartments,
+    adminProfile
 };
