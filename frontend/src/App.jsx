@@ -13,6 +13,7 @@ import DeleteJob from "./views/DeleteJob";
 import ViewAllJobs from "./views/ViewAllJobs";
 import IndividualJobPage from "./views/IndividualJobPage";
 import PrivateRoutes from "./components/PrivateRoutes";
+import AdminProfile from "./views/AdminProfile";
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
               path="/admin/job-management/view-job/:id"
               element={<IndividualJobPage />}
             />
+            <Route path="/admin/profile" element={<AdminProfile />} />
           </Route>
           <Route
             path="/user/dashboard"
