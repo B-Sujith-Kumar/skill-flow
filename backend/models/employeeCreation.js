@@ -31,6 +31,7 @@ const employeeSchema = new mongoose.Schema({
         skills: { type: [String], default: [] },
         resumeFile: { type: String },
         socialProfileLinks: { type: [String], default: [] },
+        firstLogin: { type: Boolean, default: true },
     },
 });
 

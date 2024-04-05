@@ -1,4 +1,4 @@
-const Employee = require("../models/employeeModel");
+const Employee = require("../models/employeeCreation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const employeeCreation = require("../models/employeeCreation");
@@ -8,13 +8,12 @@ require("dotenv").config();
 const empLogin = async (req, res) => {
     let success = false;
     const { empId, password } = req.body;
-    console.log(empId, password);
     try {
-        let emp = await Employee.findOne({ employeeId: empId });
+        let emp = await Employee.findOne({ 'credentials.employeeID': empId });
         if (!emp) {
             return res.status(400).json({ success, message: "Invalid credentials" });
         }
-        const passwordMatch = await bcrypt.compare(password, emp.password);
+        const passwordMatch = await bcrypt.compare(password, emp.credentials.password);
         if (!passwordMatch) {
             return res.status(400).json({ success, message: "Invalid credentials" });
         }
@@ -25,12 +24,13 @@ const empLogin = async (req, res) => {
         };
         const token = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
-        res.json({ success, token });
+        res.json({ success, token, firstLogin: emp.additionalInformation.firstLogin, empId: emp.credentials.employeeID });
     } catch (error) {
         console.error("Error during employee login:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 const empCreate = async (req, res) => {
     try {
@@ -95,31 +95,31 @@ const empCreate = async (req, res) => {
 
         console.log("New Employee : ", newEmployee);
 
-//         const transporter = nodemailer.createTransport({
-//             service: "gmail",
-//             host: "smtp.gmail.com",
-//             port: 587,
-//             secure: false,
-//             auth: {
-//                 user: process.env.USER,
-//                 pass: process.env.PASSCODE,
-//             },
-//         });
+        //         const transporter = nodemailer.createTransport({
+        //             service: "gmail",
+        //             host: "smtp.gmail.com",
+        //             port: 587,
+        //             secure: false,
+        //             auth: {
+        //                 user: process.env.USER,
+        //                 pass: process.env.PASSCODE,
+        //             },
+        //         });
 
-//         const mailOptions = {
-//             from: {
-//                 name: "SkillFlow",
-//                 address: process.env.USER,
-//             },
-//             to: email,
-//             subject: "Account ID and Password",
-//             text: `Welcome to SkillFlow, Congratulations, Your account has been created successfully.
-// Your EmployeeId is ${employeeID} and your Initial Password is password123.
-// Kindly Login to your Account to complete the Profile.`,
-//         };
+        //         const mailOptions = {
+        //             from: {
+        //                 name: "SkillFlow",
+        //                 address: process.env.USER,
+        //             },
+        //             to: email,
+        //             subject: "Account ID and Password",
+        //             text: `Welcome to SkillFlow, Congratulations, Your account has been created successfully.
+        // Your EmployeeId is ${employeeID} and your Initial Password is password123.
+        // Kindly Login to your Account to complete the Profile.`,
+        //         };
 
-//         await transporter.sendMail(mailOptions);
-//         console.log("Email sent successfully.");
+        //         await transporter.sendMail(mailOptions);
+        //         console.log("Email sent successfully.");
 
         res.status(201).json({ success: true, employee: newEmployee, message: "Employee created and email sent successfully." });
 
@@ -215,10 +215,42 @@ const searchEmployee = async (req, res) => {
     }
 };
 
+const empSetPassword = async (req, res) => {
+    try {
+        console.log("Entered here");
+        const { password, employeeID } = req.body;
+        console.log(req.body);
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const emp = await Employee.findOneAndUpdate(
+            { 'credentials.employeeID': employeeID },
+            {
+                $set: {
+                    'credentials.password': hashedPassword,
+                    'additionalInformation.firstLogin': false
+                }
+            },
+            { new: true }
+        );
+
+        if (!emp) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+
+        res.json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error setting password:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 module.exports = {
     empLogin,
     empCreate,
     empUpdate,
     deleteEmployee,
     searchEmployee,
+    empSetPassword,
 };

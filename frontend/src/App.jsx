@@ -14,6 +14,7 @@ import ViewAllJobs from "./views/ViewAllJobs";
 import IndividualJobPage from "./views/IndividualJobPage";
 import PrivateRoutes from "./components/PrivateRoutes";
 import AdminProfile from "./views/AdminProfile";
+import ResetPasswordUser from "./views/ResetPasswordUser";
 
 export default function App() {
   return (
@@ -61,6 +62,7 @@ export default function App() {
             path="/user/dashboard"
             element={<h1 className="">User Dashboard</h1>}
           />
+          <Route path="/user/setPassword" element={<ResetPasswordUser />} />
           <Route path="/about" element={<h1 className="">About</h1>} />
           <Route path="/contact" element={<h1 className="">Contact</h1>} />
           <Route path="*" element={<h1 className="">Not Found</h1>} />

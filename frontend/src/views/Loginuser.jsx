@@ -28,7 +28,12 @@ const Loginuser = () => {
       const data = await response.json();
       if (data.success) {
         localStorage.setItem("token", data.token);
-        nav("/user/dashboard");
+        localStorage.setItem("ID", data.empId);
+        if (data.firstLogin) {
+          nav("/user/setPassword");
+        } else {
+          nav("/user/dashboard");
+        }
       }
       console.log(data);
     } catch (error) {
@@ -88,7 +93,7 @@ const Loginuser = () => {
                 placeholder="Password"
                 className="py-2 w-full border-[1px] px-2 border-slate-500 outline-none rounded-lg mt-4 focus:border-coral-green tracking-wider"
                 id="password"
-                minLength={5}
+                minLength={4}
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
