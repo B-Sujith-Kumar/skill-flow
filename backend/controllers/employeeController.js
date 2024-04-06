@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const employeeCreation = require("../models/employeeCreation");
 const nodemailer = require("nodemailer");
+const cloudinary = require('../utils/cloudinary');
 require("dotenv").config();
 
 const empLogin = async (req, res) => {
@@ -229,7 +230,6 @@ const empSetPassword = async (req, res) => {
             {
                 $set: {
                     'credentials.password': hashedPassword,
-                    'additionalInformation.firstLogin': false
                 }
             },
             { new: true }
@@ -246,6 +246,86 @@ const empSetPassword = async (req, res) => {
     }
 };
 
+const getEmployee = async (req, res) => {
+    try {
+        const employeeId = req.params.employeeId;
+
+        const foundEmployee = await employeeCreation.findOne({
+            "credentials.employeeID": employeeId
+        });
+
+        if (!foundEmployee) {
+            console.log("Employee not found with ID:", employeeId);
+            return res.status(404).json({
+                success: false,
+                message: "Employee not found with the given employeeId."
+            });
+        }
+
+
+        res.status(200).json({
+            success: true,
+            employee: foundEmployee
+        });
+    } catch (error) {
+        console.error("Error searching for employee:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while searching for employee."
+        });
+    }
+}
+
+const profileImage = async (req, res) => {
+    try {
+        const { employeeID, image } = req.body;
+        const result = await cloudinary.uploader.upload(image, {
+            folder: "profileImages",
+        });
+        console.log(result.secure_url);
+        const emp = await Employee.findOneAndUpdate(
+            { 'credentials.employeeID': employeeID },
+            {
+                $set: {
+                    'additionalInformation.profileImage': result.secure_url,
+                }
+            },
+            { new: true }
+        );
+        res.status(200).json({ success: true, url: result.secure_url });
+    } catch (error) {
+        console.error("Error setting profile image:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+const updatedEmployee = async (req, res) => {
+    const { employeeID, finalForm } = req.body;
+    console.log(employeeID, finalForm);
+    try {
+        const emp = await Employee.findOneAndUpdate(
+            { 'credentials.employeeID': employeeID },
+            {
+                $set: {
+                    'personalInformation.fullName': finalForm.fullName,
+                    'personalInformation.gender': finalForm.gender,
+                    'personalInformation.dateOfBirth': finalForm.dateOfBirth,
+                    'contactInformation.email': finalForm.email,
+                    'contactInformation.phoneNumber': finalForm.phoneNumber,
+                    'additionalInformation.socialProfileLinks': finalForm.socialProfileLinks,
+                    'additionalInformation.firstLogin': false
+                }
+            },
+            { new: true }
+        );
+        res.status(200).json({ success: true, employee: emp });
+    } catch (error) {
+        console.error("Error updating employee:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
 module.exports = {
     empLogin,
     empCreate,
@@ -253,4 +333,7 @@ module.exports = {
     deleteEmployee,
     searchEmployee,
     empSetPassword,
+    getEmployee,
+    profileImage,
+    updatedEmployee
 };

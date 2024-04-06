@@ -32,4 +32,10 @@ router.post("/login", employeeController.empLogin);
 
 router.post("/set-password", employeeController.empSetPassword);
 
+router.get("/get-employee/:employeeId", employeeController.getEmployee);
+
+router.post("/update-profile-img", employeeController.profileImage)
+
+router.post("/update-employee", employeeController.updatedEmployee)
+
 module.exports = router;

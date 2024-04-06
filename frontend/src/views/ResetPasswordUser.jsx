@@ -52,7 +52,7 @@ const ResetPasswordUser = () => {
         toastr.error("Uh oh! Could not update password", "Error");
       } else {
         toastr.success("Password updated successfully!", "Success");
-        nav("/user/dashboard");
+        nav("/user/update-details");
       }
 
       const data = await response.json();
