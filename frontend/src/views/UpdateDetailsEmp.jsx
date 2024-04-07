@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import toastr from "toastr";
-import { BeatLoader, ScaleLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 import logo from "../assets/images/logo.svg";
-import axios from "axios";
 
 const UpdateDetailsEmp = () => {
   const [error, setError] = useState("");
@@ -11,6 +10,8 @@ const UpdateDetailsEmp = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [img, setImg] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [newSkill, setNewSkill] = useState("");
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -145,6 +146,33 @@ const UpdateDetailsEmp = () => {
     };
   };
 
+  const handleSkillDelete = (index) => {
+    console.log("Entered here");
+    setSkills((prevSkills) => {
+      const newSkills = [...prevSkills];
+      newSkills.splice(index, 1);
+      return newSkills;
+    });
+    setFormData((prevData) => {
+      const newSkills = [...prevData.skills];
+      newSkills.splice(index, 1);
+      return {
+        ...prevData,
+        skills: newSkills,
+      };
+    });
+  };
+
+  const handleSkillAdd = () => {
+    if (!newSkill.trim()) return;
+    setSkills((prevSkills) => [...prevSkills, newSkill]);
+    setFormData((prevData) => ({
+      ...prevData,
+      skills: [...prevData.skills, newSkill],
+    }));
+    setNewSkill("");
+  };
+
   const uploadImage = async (imageData) => {
     try {
       const res = await fetch(
@@ -230,6 +258,10 @@ const UpdateDetailsEmp = () => {
             twitter:
               data.employee.additionalInformation.socialProfileLinks[2] || "",
             profileImage: data.employee.additionalInformation.profileImage,
+            skills:
+              data.employee.additionalInformation.skills.length !== 0
+                ? data.employee.additionalInformation.skills
+                : [],
           });
         }
       } catch (err) {
@@ -582,6 +614,71 @@ const UpdateDetailsEmp = () => {
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="border-[2.5px] border-yellow-300 pb-12 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white mt-8">
+                    <h2 className="text-xl font-semibold leading-7 text-gray-900">
+                      Skills
+                    </h2>
+
+                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 max-sm:gap-y-0">
+                      <div className="sm:col-span-2">
+                        <label
+                          htmlFor="skills"
+                          className="block text-md font-medium leading-6 text-gray-900"
+                        >
+                          Enter a skill below{" "}
+                          <span className="text-red-500"></span>
+                        </label>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            name="skills"
+                            id="skills"
+                            value={newSkill}
+                            autoComplete="given-name"
+                            className="block w-full outline-none rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-coral-green sm:text-sm sm:leading-6 active:shadow-lg px-4 tracking-wide"
+                            onChange={(e) => setNewSkill(e.target.value)}
+                          />
+                          {formErrors.skills && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {formErrors.skills}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="sm:col-span-1 my-auto mt-9">
+                        <button
+                          type="button"
+                          className="bg-blue-700 text-white px-4 py-1 rounded-md"
+                          onClick={handleSkillAdd}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                    {formData.skills.length !== 0 && (
+                      <div className="mt-6 flex flex-wrap gap-y-2">
+                        {formData.skills &&
+                          formData.skills.map((s, index) => (
+                            <p
+                              key={index}
+                              className="bg-slate-200 px-3 py-2 mr-2 rounded-full text-sm text-slate-800 flex
+                        gap-2"
+                            >
+                              {s}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"
+                                width={14}
+                                className="text-coral-green cursor-pointer"
+                                onClick={() => handleSkillDelete(index)}
+                              >
+                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                              </svg>
+                            </p>
+                          ))}
+                      </div>
+                    )}
                   </div>
                   <div className="border-[2.5px] border-yellow-300 pb-12 bg-white px-7 pt-4 mt-8 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')]">
                     <h2 className="text-xl font-semibold leading-7 text-gray-900">

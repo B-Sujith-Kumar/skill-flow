@@ -313,7 +313,8 @@ const updatedEmployee = async (req, res) => {
                     'contactInformation.email': finalForm.email,
                     'contactInformation.phoneNumber': finalForm.phoneNumber,
                     'additionalInformation.socialProfileLinks': finalForm.socialProfileLinks,
-                    'additionalInformation.firstLogin': false
+                    'additionalInformation.firstLogin': false,
+                    'additionalInformation.skills': finalForm.skills,
                 }
             },
             { new: true }
