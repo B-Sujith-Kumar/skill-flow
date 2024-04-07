@@ -10,7 +10,6 @@ const ResetPasswordUser = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    // Reset errors when password or confirmPassword changes
     setErrors({});
   }, [password, confirmPassword]);
 
@@ -28,7 +27,6 @@ const ResetPasswordUser = () => {
 
     setErrors(newErrors);
 
-    // Check if there are any errors
     if (Object.keys(newErrors).length > 0) {
       return;
     }

@@ -29,7 +29,7 @@ const employeeSchema = new mongoose.Schema({
         reportingManager: { type: String, required: true },
         workLocation: { type: String, required: true },
         skills: { type: [String], default: [] },
-        resumeFile: { type: String },
+        resumeFile: { type: String, default: "" },
         socialProfileLinks: { type: [String], default: [] },
         firstLogin: { type: Boolean, default: true },
         profileImage : { type: String, default: 'https://imagedelivery.net/jP_2Cu8opO0otIERyhqaNQ/71854130-0d5f-4028-37ce-35dfd6007500/public'}

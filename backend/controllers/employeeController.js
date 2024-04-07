@@ -315,6 +315,8 @@ const updatedEmployee = async (req, res) => {
                     'additionalInformation.socialProfileLinks': finalForm.socialProfileLinks,
                     'additionalInformation.firstLogin': false,
                     'additionalInformation.skills': finalForm.skills,
+                    'additionalInformation.resumeFile': finalForm.resumeFile,
+                    'additionalInformation.profileImage': finalForm.profileImage,
                 }
             },
             { new: true }

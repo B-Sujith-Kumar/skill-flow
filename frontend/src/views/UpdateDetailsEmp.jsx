@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import toastr from "toastr";
 import { BeatLoader } from "react-spinners";
 import logo from "../assets/images/logo.svg";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+import { useNavigate } from "react-router-dom";
 
 const UpdateDetailsEmp = () => {
   const [error, setError] = useState("");
@@ -12,6 +15,44 @@ const UpdateDetailsEmp = () => {
   const [previewImg, setPreviewImg] = useState(null);
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
+  const [resume, setResume] = useState(null);
+  const [loadingResume, setLoadingResume] = useState(false);
+  const nav = useNavigate();
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    console.log(file);
+    if (file) {
+      setResume(file);
+    }
+  };
+
+  const uploadResume = () => {
+    setLoadingResume(true);
+    if (resume) {
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(`Resume/${resume.name}`);
+      fileRef.put(resume).then((snapshot) => {
+        snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setFormData((prevData) => ({
+            ...prevData,
+            resumeFile: downloadURL,
+          }));
+          toastr.success("Resume uploaded successfully", "Success");
+          setLoadingResume(false);
+        });
+      });
+    } else {
+      console.log("No file selected");
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -53,6 +94,7 @@ const UpdateDetailsEmp = () => {
         if (res.ok) {
           toastr.success("Profile updated successfully", "Success");
           console.log("Profile updated successfully");
+          nav("/user/dashboard");
         } else {
           toastr.error("Failed to update profile", "Error");
           console.error("Failed to update profile");
@@ -132,20 +174,6 @@ const UpdateDetailsEmp = () => {
     return errors;
   };
 
-  const handleImageUpload = async (e) => {
-    e.preventDefault();
-    setFileToBase();
-  };
-  const setFileToBase = () => {
-    const reader = new FileReader();
-    reader.readAsDataURL(img);
-    reader.onload = () => {
-      const base64 = reader.result;
-      setImg(base64);
-      uploadImage(base64);
-    };
-  };
-
   const handleSkillDelete = (index) => {
     console.log("Entered here");
     setSkills((prevSkills) => {
@@ -164,40 +192,66 @@ const UpdateDetailsEmp = () => {
   };
 
   const handleSkillAdd = () => {
-    if (!newSkill.trim()) return;
+    if (!newSkill.trim()) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        skills: "Skill is required",
+      }));
+      return;
+    }
     setSkills((prevSkills) => [...prevSkills, newSkill]);
     setFormData((prevData) => ({
       ...prevData,
       skills: [...prevData.skills, newSkill],
     }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      skills: "",
+    }));
     setNewSkill("");
   };
 
-  const uploadImage = async (imageData) => {
-    try {
-      const res = await fetch(
-        "http://localhost:3000/api/employee/update-profile-img",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            employeeID: localStorage.getItem("ID"),
-            image: imageData,
-          }),
-        }
-      );
-      if (res.ok) {
-        toastr.success("Profile image updated successfully", "Success");
-        console.log("Profile image updated successfully");
-        window.location.reload();
-      } else {
-        toastr.error("Failed to update profile image", "Error");
-        console.error("Failed to update profile image");
-      }
-    } catch (error) {
-      console.error(error);
+  const uploadImage = async () => {
+    // try {
+    //   const res = await fetch(
+    //     "http://localhost:3000/api/employee/update-profile-img",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         employeeID: localStorage.getItem("ID"),
+    //         image: imageData,
+    //       }),
+    //     }
+    //   );
+    //   if (res.ok) {
+    //     toastr.success("Profile image updated successfully", "Success");
+    //     console.log("Profile image updated successfully");
+    //     window.location.reload();
+    //   } else {
+    //     toastr.error("Failed to update profile image", "Error");
+    //     console.error("Failed to update profile image");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    if (img) {
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(`ProfileImages/${img.name}`);
+      fileRef.put(img).then((snapshot) => {
+        snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setFormData((prevData) => ({
+            ...prevData,
+            profileImage: downloadURL,
+          }));
+          toastr.success("Image uploaded successfully", "Success");
+        });
+      });
+    } else {
+      console.log("No file selected");
     }
   };
 
@@ -332,7 +386,7 @@ const UpdateDetailsEmp = () => {
                   <div className="flex gap-5 items-center justify-center mt-6">
                     <button
                       className="bg-blue-700 border-2 border-blue-700 px-5 py-1 text-white rounded-sm"
-                      onClick={handleImageUpload}
+                      onClick={uploadImage}
                     >
                       Submit
                     </button>
@@ -483,6 +537,94 @@ const UpdateDetailsEmp = () => {
                       </div>
                     </div>
                   </div>
+
+                  {!resume ? (
+                    <div className="border-[2.5px] border-yellow-300 pb-12 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white mt-8">
+                      <h2 className="text-xl font-semibold leading-7 text-gray-900">
+                        Resume Upload
+                      </h2>
+                      <div
+                        className="flex items-center justify-center w-full mt-8"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                      >
+                        <label
+                          htmlFor="dropzone-file"
+                          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg
+                              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 20 16"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                              />
+                            </svg>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              Accepted Format: PDF
+                            </p>
+                          </div>
+                          <input
+                            id="dropzone-file"
+                            type="file"
+                            className="hidden"
+                            accept=".pdf"
+                            onChange={(e) => setResume(e.target.files[0])}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : !loadingResume ? (
+                    <div className="border-[2.5px] border-yellow-300 pb-4 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white mt-8">
+                      <h2 className="text-xl font-semibold leading-7 text-gray-900">
+                        Resume Upload
+                      </h2>
+                      <p className="mt-6">{resume.name}</p>
+                      <div className="flex gap-4 mt-8">
+                        <button
+                          className="bg-blue-700 px-5 py-2 text-white rounded-md border-2 border-blue-700"
+                          type="button"
+                          onClick={uploadResume}
+                        >
+                          Upload Resume
+                        </button>
+                        <button
+                          className="bg-white px-5 py-2 text-black rounded-md border-2 border-blue-700"
+                          onClick={() => {
+                            setResume(null);
+                            setFormData({ ...formData, resumeFile: "" });
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="border-[2.5px] border-yellow-300 pb-4 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white mt-8">
+                      <h2 className="text-xl font-semibold leading-7 text-gray-900">
+                        Resume Upload
+                      </h2>
+                      <div className="flex flex-col items-center justify-center w-full mt-8">
+                        <BeatLoader color="#000" />
+                        <p className="mt-4">Uploading Resume...</p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="border-[2.5px] border-yellow-300 pb-12 px-7 pt-4 rounded-lg shadow-lg bg-[url('./assets/images/book-bg.png')] bg-white mt-8">
                     <h2 className="text-xl font-semibold leading-7 text-gray-900">
                       Social Profiles
