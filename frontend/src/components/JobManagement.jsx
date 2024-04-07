@@ -123,7 +123,7 @@ const JobManagement = () => {
         </div>
 
         <div className=" flex relative mx-20 my-12 text-slate-gray max-xl:mx-0 max-xl:static">
-          <div className="flex gap-4 mx-auto bg-white py-4 px-4 rounded-full shadow-xl max-xl:mx-auto max-[920px]:max-w-4xl max-[920px]:mx-0 max-[895px]:mx-auto max-[830px]:mx-0 max-[750px]:flex-wrap max-[750px]:justify-evenly max-[750px]:rounded-lg max-sm:px-4 max-sm:justify-start max-sm:gap-x-6">
+          <div className="flex gap-4 mx-auto bg-white py-4 px-4 md:px-6 rounded-full shadow-xl max-xl:mx-auto max-[920px]:max-w-4xl max-[920px]:mx-0 max-[895px]:mx-auto max-[830px]:mx-0 max-[750px]:flex-wrap max-[750px]:justify-evenly max-[750px]:rounded-lg max-sm:px-4 max-sm:justify-start max-sm:gap-x-6">
             <img src={search} alt="" width={24} />
             <h2 className="sm:hidden font-medium">Search</h2>
             <input
@@ -136,14 +136,14 @@ const JobManagement = () => {
             <input
               type="text"
               placeholder="Enter job ID"
-              className="flex-1 outline-none text-slate-800 text-lg border-r-2 border-slate-200 max-[895px]:max-w-36 max-md:max-w-28 max-[750px]:w-auto max-sm:min-w-full"
+              className="flex-1 outline-none text-slate-800 text-lg border-r-2 border-slate-200 max-[895px]:max-w-36 max-md:max-w-28 max-w-42 max-[750px]:w-auto max-sm:min-w-full"
               onChange={jobChange}
               value={jobID}
             />
             <input
               type="text"
               placeholder="Enter location"
-              className="flex-1 outline-none text-slate-800 max-sm:min-w-full text-lg border-slate-400 max-[920px]:max-w-44 max-[830px]:max-w-32 max-sm:border-r-2 max-sm:border-slate-200"
+              className="flex-1 outline-none text-slate-800 max-sm:min-w-full text-lg border-slate-400 max-[920px]:max-w-44 max-[830px]:max-w-32 min-w-40 xl:max-w-28 max-sm:border-r-2 max-sm:border-slate-200"
               onChange={locationChange}
               value={location}
             />
