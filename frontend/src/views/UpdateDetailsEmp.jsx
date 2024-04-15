@@ -94,7 +94,9 @@ const UpdateDetailsEmp = () => {
         if (res.ok) {
           toastr.success("Profile updated successfully", "Success");
           console.log("Profile updated successfully");
-          nav("/user/dashboard");
+          if (localStorage.getItem("firstLogin") === "true") {
+            nav("/user/dashboard");
+          }
         } else {
           toastr.error("Failed to update profile", "Error");
           console.error("Failed to update profile");
@@ -562,6 +564,16 @@ const UpdateDetailsEmp = () => {
                         >
                           <path d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z" />
                         </svg>
+                      </div>
+                      <div className="flex items-center mt-6">
+                        <button
+                          className="text-white bg-blue-700 px-4 py-1 rounded-md"
+                          onClick={() =>
+                            setFormData({ ...formData, resumeFile: "" })
+                          }
+                        >
+                          Upload other resume
+                        </button>
                       </div>
                     </div>
                   ) : !resume ? (
