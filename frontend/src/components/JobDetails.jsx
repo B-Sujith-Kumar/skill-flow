@@ -4,7 +4,7 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
     <div className="mb-8">
       <div
         className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
-          isIndividual ? "" : "mx-auto"
+          isIndividual ? "max-w-2xl" : "mx-auto"
         } shadow-lg`}
       >
         <div className="border-b-[1.5px] flex justify-between items-center mt-3 pb-5">
@@ -77,7 +77,7 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
       </div>
       <div
         className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
-          isIndividual ? "" : "mx-auto"
+          isIndividual ? "max-w-2xl" : "mx-auto"
         } mt-8 shadow-lg`}
       >
         <p className="text-md font-medium">Job Description</p>
