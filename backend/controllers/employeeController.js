@@ -25,7 +25,7 @@ const empLogin = async (req, res) => {
         };
         const token = jwt.sign(data, process.env.JWT_SECRET);
         success = true;
-        res.json({ success, token, firstLogin: emp.additionalInformation.firstLogin, empId: emp.credentials.employeeID });
+        res.json({ success, token, firstLogin: emp.additionalInformation.firstLogin, empId: emp.credentials.employeeID, name: emp.personalInformation.fullName });
     } catch (error) {
         console.error("Error during employee login:", error);
         res.status(500).json({ message: "Internal server error" });

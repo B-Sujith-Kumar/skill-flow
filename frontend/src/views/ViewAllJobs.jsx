@@ -2,6 +2,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import { useEffect, useState } from "react";
 import AllJobCard from "../components/AllJobCard";
 import { BeatLoader } from "react-spinners";
+import EmployeeSidebar from "../components/EmployeeSidebar";
 
 const ViewAllJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -95,7 +96,11 @@ const ViewAllJobs = () => {
 
   return (
     <div>
-      <AdminSidebar />
+      {localStorage.getItem("Type") === "employee" ? (
+        <EmployeeSidebar />
+      ) : (
+        <AdminSidebar />
+      )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pb-8 overflow-hidden">
         <div className="min-w-full min-h-full flex ml-6 pr-12 max-md:justify-center">
           <div>
@@ -205,7 +210,11 @@ const ViewAllJobs = () => {
               <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
                 {jobs.map((job) => (
                   <a
-                    href={`/admin/job-management/view-job/${job.jobid}`}
+                    href={
+                      localStorage.getItem("Type") === "employee"
+                        ? `/user/view-job/${job.jobid}`
+                        : `/admin/job-management/view-job/${job.jobid}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     key={job.jobid}

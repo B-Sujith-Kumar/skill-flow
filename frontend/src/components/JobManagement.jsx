@@ -6,6 +6,7 @@ import JobCard from "./JobCard";
 import { BeatLoader } from "react-spinners";
 import search from "../assets/icons/searchIcon.svg";
 import { Link } from "react-router-dom";
+import EmployeeSidebar from "./EmployeeSidebar";
 
 const JobManagement = () => {
   const [jobs, setJobs] = useState([]);
@@ -97,30 +98,40 @@ const JobManagement = () => {
 
   return (
     <div>
-      <AdminSidebar />
-      <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-8">
-        <div className="flex flex-wrap max-sm:flex-col">
-          <div>
-            <p className="pt-8 text-slate-500">Pages / Job Management</p>
+      {localStorage.getItem("Type") === "employee" ? (
+        <EmployeeSidebar />
+      ) : (
+        <AdminSidebar />
+      )}
+      <div className="min-h-screen main-content bg-dashboard font-rubik pt-6 pl-10 pr-10 max-sm:px-6 pb-8">
+        {localStorage.getItem("Type") === "employee" ? (
+          <h2 className="font-medium text-2xl">
+            Welcome, {localStorage.getItem("name")} 👋
+          </h2>
+        ) : (
+          <div className="flex flex-wrap max-sm:flex-col">
+            <div>
+              <p className="pt-8 text-slate-500">Pages / Job Management</p>
 
-            <h2 className="text-3xl mt-2 mb-3 font-medium text-slate-800">
-              Job Management
-            </h2>
-          </div>
-          <div className="flex flex-1 justify-end items-center mx-7 gap-5 max-sm:justify-start max-sm:mx-0 max-sm:mt-3">
-            <NavLink to="/admin/job-management/add-job">
-              <div className=" bg-blue-600 text-white p-3 py-1 rounded-md hover:scale-105 transition duration-300 ease-in-out">
-                Add Job
-              </div>
-            </NavLink>
+              <h2 className="text-3xl mt-2 mb-3 font-medium text-slate-800">
+                Job Management
+              </h2>
+            </div>
+            <div className="flex flex-1 justify-end items-center mx-7 gap-5 max-sm:justify-start max-sm:mx-0 max-sm:mt-3">
+              <NavLink to="/admin/job-management/add-job">
+                <div className=" bg-blue-600 text-white p-3 py-1 rounded-md hover:scale-105 transition duration-300 ease-in-out">
+                  Add Job
+                </div>
+              </NavLink>
 
-            <NavLink to="/admin/job-management/delete-job">
-              <div className=" bg-red-500 text-white mr-10 p-3 py-1 rounded-md hover:scale-105 transition duration-300 ease-in-out">
-                Delete Job
-              </div>
-            </NavLink>
+              <NavLink to="/admin/job-management/delete-job">
+                <div className=" bg-red-500 text-white mr-10 p-3 py-1 rounded-md hover:scale-105 transition duration-300 ease-in-out">
+                  Delete Job
+                </div>
+              </NavLink>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className=" flex relative mx-20 my-12 text-slate-gray max-xl:mx-0 max-xl:static">
           <div className="flex gap-4 mx-auto bg-white py-4 px-4 md:px-6 rounded-full shadow-xl max-xl:mx-auto max-[920px]:max-w-4xl max-[920px]:mx-0 max-[895px]:mx-auto max-[830px]:mx-0 max-[750px]:flex-wrap max-[750px]:justify-evenly max-[750px]:rounded-lg max-sm:px-4 max-sm:justify-start max-sm:gap-x-6">
@@ -175,7 +186,11 @@ const JobManagement = () => {
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {jobs.map((job) => (
               <a
-                href={`/admin/job-management/view-job/${job.jobid}`}
+                href={
+                  localStorage.getItem("Type") === "employee"
+                    ? `/user/view-job/${job.jobid}`
+                    : `/admin/job-management/view-job/${job.jobid}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 key={job.jobid}
@@ -196,7 +211,11 @@ const JobManagement = () => {
           <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
             {filteredJobs.map((job) => (
               <a
-                href={`/admin/job-management/view-job/${job.jobid}`}
+                href={
+                  localStorage.getItem("Type") === "employee"
+                    ? `/user/view-job/${job.jobid}`
+                    : `/admin/job-management/view-job/${job.jobid}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 key={job.jobid}
@@ -212,7 +231,13 @@ const JobManagement = () => {
           </div>
         )}
         <div className="flex items-center justify-center mt-8 gap-6 flex-wrap">
-          <Link to="/admin/job-management/view-jobs">
+          <Link
+            to={
+              localStorage.getItem("Type") === "employee"
+                ? "/user/view-jobs"
+                : "/admin/job-management/view-jobs"
+            }
+          >
             {!isLoading && (
               <button className="border-2 px-4 py-2 border-blue-600 text-blue-600 flex items-center gap-2 hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out rounded-md">
                 View More{" "}

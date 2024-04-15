@@ -16,6 +16,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import AdminProfile from "./views/AdminProfile";
 import ResetPasswordUser from "./views/ResetPasswordUser";
 import UpdateDetailsEmp from "./views/UpdateDetailsEmp";
+import PrivateRoutesEmployee from "./components/PrivateRoutesEmployee";
 
 export default function App() {
   return (
@@ -59,12 +60,13 @@ export default function App() {
             />
             <Route path="/admin/profile" element={<AdminProfile />} />
           </Route>
-          <Route
-            path="/user/dashboard"
-            element={<h1 className="">User Dashboard</h1>}
-          />
-          <Route path="/user/setPassword" element={<ResetPasswordUser />} />
-          <Route path="/user/update-details" element={<UpdateDetailsEmp />} />
+          <Route element={<PrivateRoutesEmployee />}>
+            <Route path="/user/dashboard" element={<JobManagement />} />
+            <Route path="/user/setPassword" element={<ResetPasswordUser />} />
+            <Route path="/user/update-details" element={<UpdateDetailsEmp />} />
+            <Route path="/user/view-job/:id" element={<IndividualJobPage />} />
+            <Route path="/user/view-jobs" element={<ViewAllJobs />} />
+          </Route>
           <Route path="/about" element={<h1 className="">About</h1>} />
           <Route path="/contact" element={<h1 className="">Contact</h1>} />
           <Route path="*" element={<h1 className="">Not Found</h1>} />

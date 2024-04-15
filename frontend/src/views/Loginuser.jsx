@@ -29,6 +29,8 @@ const Loginuser = () => {
       if (data.success) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("ID", data.empId);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("Type", "employee");
         if (data.firstLogin) {
           nav("/user/setPassword");
         } else {

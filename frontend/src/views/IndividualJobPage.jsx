@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 import JobDetails from "../components/JobDetails";
 import { BeatLoader } from "react-spinners";
+import EmployeeSidebar from "../components/EmployeeSidebar";
 
 const IndividualJobPage = () => {
   const { id } = useParams();
@@ -22,7 +23,11 @@ const IndividualJobPage = () => {
   }, [id]);
   return (
     <div>
-      <AdminSidebar />
+      {localStorage.getItem("Type") === "employee" ? (
+        <EmployeeSidebar />
+      ) : (
+        <AdminSidebar />
+      )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <div className="pt-8">
           {job && <JobDetails jobDetails={job} isIndividual={true} />}
