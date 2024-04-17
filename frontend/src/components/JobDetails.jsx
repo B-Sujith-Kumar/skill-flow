@@ -1,10 +1,11 @@
 import companyLogo from "../assets/images/78730.gif";
 const JobDetails = ({ jobDetails, isIndividual }) => {
+  console.log(isIndividual);
   return (
     <div className="mb-8">
       <div
-        className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
-          isIndividual ? "max-w-2xl" : "mx-auto"
+        className={`font-rubik bg-white px-6 py-4 rounded-3xl  ${
+          isIndividual ? "max-w-2xl" : "max-w-4xl mx-auto"
         } shadow-lg`}
       >
         <div className="border-b-[1.5px] flex justify-between items-center mt-3 pb-5">
@@ -62,22 +63,39 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
             <img src={companyLogo} alt="" width={110} className="mr-10" />
           </div>
         </div>
-        <p className="mt-4 text-sm">
-          <span className="text-slate-600">Posted:</span>{" "}
-          <span className="text-slate-800">
-            {Math.round(
-              Math.abs(
-                (new Date() - new Date(jobDetails.publishedAt)) /
-                  (1000 * 60 * 60 * 24)
-              )
-            )}{" "}
-            days ago
-          </span>
-        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-4">
+            <p className="mt-4 text-sm inline-block border-r-[1.5px] border-r-slate-200 pr-3">
+              <span className="text-slate-600">Posted:</span>{" "}
+              <span className="text-slate-800">
+                {Math.round(
+                  Math.abs(
+                    (new Date() - new Date(jobDetails.publishedAt)) /
+                      (1000 * 60 * 60 * 24)
+                  )
+                )}{" "}
+                days ago
+              </span>
+            </p>
+            <p className="mt-4 text-sm inline-block border-r-[1.5px] border-r-slate-200 pr-3">
+              <span className="text-slate-600">Openings:</span>{" "}
+              <span className="text-slate-800">{1}</span>
+            </p>
+            <p className="mt-4 text-sm inline-block">
+              <span className="text-slate-600">Applicants:</span>{" "}
+              <span className="text-slate-800">{35}</span>
+            </p>
+          </div>
+          <div>
+            <button className="bg-blue-600 text-white text-sm px-4 py-2 active:bg-blue-800 active:scale-95 rounded-full mt-4">
+              Apply Now
+            </button>
+          </div>
+        </div>
       </div>
       <div
-        className={`font-rubik bg-white px-6 py-4 rounded-3xl max-w-4xl ${
-          isIndividual ? "max-w-2xl" : "mx-auto"
+        className={`font-rubik bg-white px-6 py-4 rounded-3xl ${
+          isIndividual ? "max-w-2xl" : "max-w-4xl mx-auto"
         } mt-8 shadow-lg`}
       >
         <p className="text-md font-medium">Job Description</p>

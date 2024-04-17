@@ -4,7 +4,7 @@ const AdminSidebar = () => {
   const handleLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("isAdmin");
-    window.location.href = "/admin/login";
+    window.location.href = "/";
   };
   return (
     <aside className="flex flex-col items-center font-rubik gap-10 px-4 py-4 fixed top-0 left-0 max-w-xs h-full pl-6 max-[1200px]:hidden">

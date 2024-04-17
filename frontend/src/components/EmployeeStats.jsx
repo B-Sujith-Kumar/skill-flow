@@ -1,7 +1,7 @@
 const EmployeeStats = () => {
   return (
     <div className="grid grid-cols-4 py-8 rounded-lg gap-6 max-lg:grid-cols-2 max-sm:grid-cols-1 max-sm:py-2 [1200px]:grid-cols2">
-      <div className="flex items-center gap-6 border-[1px] border-white shadow-lg rounded-md py-8 pl-6 bg-white">
+      <div className="flex items-center gap-6 border-[1px] border-white shadow-lg rounded-md py-8 pl-4 bg-white">
         <div className="bg-indigo-100 px-4 py-4 rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
