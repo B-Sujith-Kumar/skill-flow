@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const employeeCreation = require("../models/employeeCreation");
 const nodemailer = require("nodemailer");
 const cloudinary = require('../utils/cloudinary');
+const Job = require("../models/internalJobPosting");
 require("dotenv").config();
 
 const empLogin = async (req, res) => {
@@ -328,6 +329,30 @@ const updatedEmployee = async (req, res) => {
     }
 }
 
+const applyJob = async (req, res) => {
+    const { jobId, employeeId } = req.body;
+    try {
+        const jobPosting = await Job.findOne({ jobid: jobId });
+
+        if (!jobPosting) {
+            return { success: false, message: "Job posting not found." };
+        }
+
+        if (jobPosting.applicants.includes(employeeId)) {
+            return { success: false, message: "Employee has already applied for this job." };
+        }
+
+        jobPosting.applicants.push(employeeId);
+
+        await jobPosting.save();
+
+        return res.status(200).json({ success: true, message: "Applied for the job successfully." });
+    } catch (error) {
+
+        return res.status(500).json({ success: false, message: "Internal server error." });
+    }
+}
+
 
 module.exports = {
     empLogin,
@@ -338,5 +363,6 @@ module.exports = {
     empSetPassword,
     getEmployee,
     profileImage,
-    updatedEmployee
+    updatedEmployee,
+    applyJob
 };

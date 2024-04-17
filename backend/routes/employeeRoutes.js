@@ -38,4 +38,6 @@ router.post("/update-profile-img", employeeController.profileImage)
 
 router.post("/update-employee", employeeController.updatedEmployee)
 
+router.post("/apply-job", employeeController.applyJob)
+
 module.exports = router;

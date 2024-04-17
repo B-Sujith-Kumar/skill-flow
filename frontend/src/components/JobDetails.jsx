@@ -1,6 +1,59 @@
 import companyLogo from "../assets/images/78730.gif";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+import { useEffect, useState } from "react";
+
 const JobDetails = ({ jobDetails, isIndividual }) => {
-  console.log(isIndividual);
+  const [applied, setApplied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [applicants, setApplicants] = useState(0);
+  console.log(applied);
+  const handleJobApply = () => {
+    const applyJob = async () => {
+      const res = await fetch("http://localhost:3000/api/employee/apply-job", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jobId: jobDetails.jobid,
+          employeeId: localStorage.getItem("ID"),
+        }),
+      });
+      if (res.status === 200) {
+        setApplicants(applicants + 1);
+        toastr.success("Applied for job successfully", "Success");
+        setApplied(true);
+      } else {
+        toastr.error("Failed to apply for job", "Error");
+      }
+    };
+    applyJob();
+  };
+  useEffect(() => {
+    setIsLoading(true);
+    const checkApplied = async () => {
+      const job = await fetch(
+        "http://localhost:3000/api/admin/searchJob/" + jobDetails.jobid,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const jobData = await job.json();
+      const appliedEmployees = jobData.applicants;
+      const employeeId = localStorage.getItem("ID");
+      setApplicants(jobData.applicants.length);
+      if (appliedEmployees.includes(employeeId)) {
+        setApplied(true);
+      } else {
+        setApplied(false);
+      }
+    };
+    checkApplied().then(() => setIsLoading(false));
+  }, []);
   return (
     <div className="mb-8">
       <div
@@ -63,8 +116,8 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
             <img src={companyLogo} alt="" width={110} className="mr-10" />
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-4">
+        <div className="flex items-center justify-between flex-wrap">
+          <div className="flex gap-x-4 flex-wrap">
             <p className="mt-4 text-sm inline-block border-r-[1.5px] border-r-slate-200 pr-3">
               <span className="text-slate-600">Posted:</span>{" "}
               <span className="text-slate-800">
@@ -79,17 +132,27 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
             </p>
             <p className="mt-4 text-sm inline-block border-r-[1.5px] border-r-slate-200 pr-3">
               <span className="text-slate-600">Openings:</span>{" "}
-              <span className="text-slate-800">{1}</span>
+              <span className="text-slate-800">
+                {jobDetails.openings ? jobDetails.openings : "Not disclosed"}
+              </span>
             </p>
             <p className="mt-4 text-sm inline-block">
               <span className="text-slate-600">Applicants:</span>{" "}
-              <span className="text-slate-800">{35}</span>
+              <span className="text-slate-800">
+                {applicants ? applicants : "0"}
+              </span>
             </p>
           </div>
           {localStorage.getItem("Type") === "employee" && (
             <div>
-              <button className="bg-blue-600 text-white text-sm px-4 py-2 active:bg-blue-800 active:scale-95 rounded-full mt-4">
-                Apply Now
+              <button
+                className={`${
+                  applied ? "bg-green-600" : "bg-blue-600 active:bg-blue-800"
+                } text-white text-sm px-4 py-2  active:scale-95 rounded-full mt-4`}
+                onClick={handleJobApply}
+                disabled={applied}
+              >
+                {applied ? "Applied" : "Apply Now"}
               </button>
             </div>
           )}
