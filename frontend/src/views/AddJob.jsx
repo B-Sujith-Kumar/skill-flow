@@ -30,6 +30,7 @@ const AddJob = () => {
     salary: "",
     contactEmail: "",
     reportingManager: "",
+    openings: "",
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -207,6 +208,10 @@ const AddJob = () => {
 
     if (!data.reportingManager.trim()) {
       errors.reportingManager = "Reporting Manager is required";
+    }
+
+    if (!data.openings.trim()) {
+      errors.openings = "Number of openings is required";
     }
 
     setErrors(errors);
@@ -664,6 +669,30 @@ const AddJob = () => {
                     {errors.reportingManager && (
                       <p className="text-red-500 text-sm mt-2">
                         {errors.reportingManager}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="openings"
+                    className="block text-md font-medium leading-6 text-gray-900"
+                  >
+                    Number of openings: <span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="number"
+                      name="openings"
+                      id="openings"
+                      value={formData.openings}
+                      onChange={handleInputChange}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 outline-none shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-coral-green sm:text-sm sm:leading-6 px-4 tracking-wide"
+                      required
+                    />
+                    {errors.openings && (
+                      <p className="text-red-500 text-sm mt-2">
+                        {errors.openings}
                       </p>
                     )}
                   </div>
