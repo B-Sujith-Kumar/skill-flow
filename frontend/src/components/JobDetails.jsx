@@ -86,11 +86,13 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
               <span className="text-slate-800">{35}</span>
             </p>
           </div>
-          <div>
-            <button className="bg-blue-600 text-white text-sm px-4 py-2 active:bg-blue-800 active:scale-95 rounded-full mt-4">
-              Apply Now
-            </button>
-          </div>
+          {localStorage.getItem("Type") === "employee" && (
+            <div>
+              <button className="bg-blue-600 text-white text-sm px-4 py-2 active:bg-blue-800 active:scale-95 rounded-full mt-4">
+                Apply Now
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div
