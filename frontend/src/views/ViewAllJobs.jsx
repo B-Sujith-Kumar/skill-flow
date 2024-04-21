@@ -228,7 +228,11 @@ const ViewAllJobs = () => {
               <section className="grid grid-cols-2 gap-x-6 gap-y-8 max-md:grid-cols-1">
                 {filteredJobs.map((job) => (
                   <a
-                    href={`/admin/job-management/view-job/${job.jobid}`}
+                    href={
+                      localStorage.getItem("Type") === "employee"
+                        ? `/user/view-job/${job.jobid}`
+                        : `/admin/job-management/view-job/${job.jobid}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     key={job.jobid}

@@ -348,7 +348,7 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
               .map((jobItem, index) => (
                 <a
                   key={index}
-                  href={`/admin/job-management/view-job/${jobItem.jobid}`}
+                  href={`/user/view-job/${jobItem.jobid}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-auto"

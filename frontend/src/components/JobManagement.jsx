@@ -208,7 +208,7 @@ const JobManagement = () => {
           </div>
         )}
         {!isLoading && searched && filteredJobs.length > 0 && (
-          <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1">
+          <div className="grid grid-cols-3 gap-y-10 gap-8 max-[980px]:items-center max-xl:grid-cols-2 max-sm:grid-cols-1 filtered">
             {filteredJobs.map((job) => (
               <a
                 href={
