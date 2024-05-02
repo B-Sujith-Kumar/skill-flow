@@ -49,6 +49,9 @@ router.get("/displayJobs", adminController.displayjob);
 
 router.get("/allJobs", adminController.displayAllJobs);
 
+
+router.get("/applicants/:jobid", adminController.applicants);
+
 router.get("/departments", adminController.getDepartments);
 
 router.post("/adminProfile", authenticateToken, adminController.adminProfile);

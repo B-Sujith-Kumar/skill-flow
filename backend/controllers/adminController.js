@@ -2,6 +2,7 @@ const Admin = require("../models/adminModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const InternalJobPosting = require("../models/internalJobPosting");
+const Employee = require("../models/employeeCreation");
 require("dotenv").config();
 
 const adminLogin = async (req, res) => {
@@ -213,6 +214,27 @@ const adminProfile = async (req, res) => {
 
 }
 
+const applicants = async(req,res)=>{
+    try {
+        const jobid = req.params.jobid;
+
+        const applicants = await Employee.find({ "appliedJobs.jobId": jobid });
+    
+        if (!applicants) {
+
+          return res.status(404).json({ error: "No applicants found for this job" });
+        }
+
+        res.status(200).json(applicants);
+      } catch (error) {
+
+        console.error("Error getting applicants for job:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+
+
+
 
 module.exports = {
     adminLogin,
@@ -222,5 +244,6 @@ module.exports = {
     displayjob,
     displayAllJobs,
     getDepartments,
-    adminProfile
+    adminProfile,
+    applicants
 };
