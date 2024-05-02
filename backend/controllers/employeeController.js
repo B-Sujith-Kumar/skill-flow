@@ -333,6 +333,7 @@ const applyJob = async (req, res) => {
     const { jobId, employeeId } = req.body;
     try {
         const jobPosting = await Job.findOne({ jobid: jobId });
+        const user = await Employee.findOne({ 'credentials.employeeID': employeeId });
 
         if (!jobPosting) {
             return { success: false, message: "Job posting not found." };
@@ -344,7 +345,11 @@ const applyJob = async (req, res) => {
 
         jobPosting.applicants.push(employeeId);
 
+        user.appliedJobs.push({ jobId: jobId });
+
         await jobPosting.save();
+
+        await user.save();
 
         return res.status(200).json({ success: true, message: "Applied for the job successfully." });
     } catch (error) {
