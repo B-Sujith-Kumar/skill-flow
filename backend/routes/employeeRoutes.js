@@ -40,4 +40,6 @@ router.post("/update-employee", employeeController.updatedEmployee)
 
 router.post("/apply-job", employeeController.applyJob)
 
+router.get("/appliedJobs/:employeeId", employeeController.appliedJobs)
+
 module.exports = router;
