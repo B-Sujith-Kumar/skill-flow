@@ -2,7 +2,6 @@ import companyLogo from "../assets/images/78730.gif";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 
 const JobDetails = ({ jobDetails, isIndividual }) => {
   const [applied, setApplied] = useState(false);

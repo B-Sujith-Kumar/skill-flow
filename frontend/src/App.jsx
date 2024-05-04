@@ -18,6 +18,7 @@ import ResetPasswordUser from "./views/ResetPasswordUser";
 import UpdateDetailsEmp from "./views/UpdateDetailsEmp";
 import PrivateRoutesEmployee from "./components/PrivateRoutesEmployee";
 import ViewApplicants from "./views/ViewApplicants";
+import ApplicantDetails from "./views/ApplicantDetails";
 
 export default function App() {
   return (
@@ -63,6 +64,7 @@ export default function App() {
               path="/admin/applicants/:jobid"
               element={<ViewApplicants />}
             />
+            <Route path="/admin/:id" element={<ApplicantDetails />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
           </Route>
           <Route element={<PrivateRoutesEmployee />}>

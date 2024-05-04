@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 import EmployeeSidebar from "../components/EmployeeSidebar";
 import { useEffect, useState } from "react";
