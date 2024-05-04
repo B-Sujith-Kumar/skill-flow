@@ -358,6 +358,30 @@ const applyJob = async (req, res) => {
     }
 }
 
+const appliedJobs = async(req,res)=>{
+    try {
+        const employeeId = req.params.employeeId;
+    
+        // Find the employee by employeeId
+        const employee = await Employee.findOne({ 'credentials.employeeID': employeeId });
+    
+        if (!employee) {
+          // If employee not found, return a 404 response
+          return res.status(404).json({ error: "Employee not found" });
+        }
+    
+        // Extract the appliedJobs array from the employee document
+        const appliedJobs = employee.appliedJobs;
+    
+        // Return the list of applied jobs
+        res.status(200).json(appliedJobs);
+      } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        console.error("Error getting applied jobs for employee:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+      }
+}
+
 
 
 
@@ -371,5 +395,6 @@ module.exports = {
     getEmployee,
     profileImage,
     updatedEmployee,
-    applyJob
+    applyJob,
+    appliedJobs
 };
