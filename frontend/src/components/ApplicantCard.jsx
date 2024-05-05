@@ -1,7 +1,7 @@
 const ApplicantCard = ({ applicant }) => {
   console.log(applicant.credentials.employeeID);
   return (
-    <div className="flex flex-col gap-y-3 justify-start items-start rounded-lg shadow-lg bg-white py-5 px-6">
+    <div className="flex flex-col gap-y-3 justify-start items-start rounded-lg shadow-lg hover:shadow-2xl bg-white py-5 px-6">
       <a
         href={`/admin/${applicant.credentials.employeeID}`}
         className="w-full"
@@ -61,10 +61,10 @@ const ApplicantCard = ({ applicant }) => {
             </span>
           ))}
       </div>
-      <div className="mt-4 flex gap-x-5">
+      <div className="mt-4 flex gap-x-5 justify-between w-full">
         <a
           href={applicant.additionalInformation.resumeFile}
-          className="text-white bg-blue-600 px-4 py-2 mx-auto rounded-md"
+          className="text-white bg-blue-600 px-2 py-2 rounded-md"
           target="_blank"
           rel="noreferrer"
         >

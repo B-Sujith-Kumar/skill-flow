@@ -27,30 +27,18 @@ const EmployeeSidebar = () => {
             Home
           </li>
         </NavLink>
-        {/* <NavLink to="/admin/employee-management">
+        <NavLink to={`/user/applied-jobs/${localStorage.getItem("ID")}`}>
           <li className="cursor-pointer flex items-center gap-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
+              viewBox="0 0 512 512"
               width={16}
             >
-              <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+              <path d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z" />
             </svg>
-            Employee Management
+            Applied Jobs
           </li>
         </NavLink>
-        <NavLink to="/admin/job-management">
-          <li className="cursor-pointer flex items-center gap-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 384 512"
-              width={16}
-            >
-              <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM112 192H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-            </svg>
-            Job Management
-          </li>
-        </NavLink> */}
         <NavLink to="/user/update-details">
           <li className="cursor-pointer flex items-center gap-5">
             <svg

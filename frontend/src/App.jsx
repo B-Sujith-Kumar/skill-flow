@@ -19,6 +19,7 @@ import UpdateDetailsEmp from "./views/UpdateDetailsEmp";
 import PrivateRoutesEmployee from "./components/PrivateRoutesEmployee";
 import ViewApplicants from "./views/ViewApplicants";
 import ApplicantDetails from "./views/ApplicantDetails";
+import AppliedJobs from "./views/AppliedJobs";
 
 export default function App() {
   return (
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/user/update-details" element={<UpdateDetailsEmp />} />
             <Route path="/user/view-job/:id" element={<IndividualJobPage />} />
             <Route path="/user/view-jobs" element={<ViewAllJobs />} />
+            <Route path="/user/applied-jobs/:id" element={<AppliedJobs />} />
           </Route>
           <Route path="/about" element={<h1 className="">About</h1>} />
           <Route path="/contact" element={<h1 className="">Contact</h1>} />
