@@ -251,6 +251,7 @@ const updateStatus = async (req, res) => {
         const { jobid } = req.params;
         const { employeeID, status } = req.body;
         const employee = await Employee.findOne({ "credentials.employeeID": employeeID });
+        const job = await InternalJobPosting.findOne({ jobid });
         if (!employee) {
             return res.status(404).json({ error: "Employee not found" });
         }
@@ -258,7 +259,11 @@ const updateStatus = async (req, res) => {
         if (jobIndex === -1) {
             return res.status(404).json({ error: "Job not found" });
         }
+        const notificationMessage = `Your application for job ${job.title} (${jobid}) has been updated to ${status}.`;
         employee.appliedJobs[jobIndex].status = status;
+        employee.additionalInformation.notifications.push({
+            message: notificationMessage
+        });
         await employee.save();
         res.status(200).json({ message: "Status updated successfully" });
     } catch (error) {

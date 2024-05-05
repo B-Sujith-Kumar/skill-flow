@@ -32,13 +32,17 @@ const employeeSchema = new mongoose.Schema({
         resumeFile: { type: String, default: "" },
         socialProfileLinks: { type: [String], default: [] },
         firstLogin: { type: Boolean, default: true },
-        profileImage: { type: String, default: 'https://imagedelivery.net/jP_2Cu8opO0otIERyhqaNQ/71854130-0d5f-4028-37ce-35dfd6007500/public' }
+        profileImage: { type: String, default: 'https://imagedelivery.net/jP_2Cu8opO0otIERyhqaNQ/71854130-0d5f-4028-37ce-35dfd6007500/public' },
+        notifications: [{
+            message: { type: String },
+            timestamp: { type: Date, default: Date.now }
+        }]
     },
     appliedJobs: [{
         jobId: { type: String },
         jobTitle: { type: String },
         salary: { type: Number },
-        experience : {type: String},
+        experience: { type: String },
         status: { type: String, default: 'Applied' },
     }]
 });

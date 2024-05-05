@@ -44,4 +44,6 @@ router.get("/appliedJobs/:employeeId", employeeController.appliedJobs)
 
 router.post("/withdraw/:jobId", employeeController.withdrawJob)
 
+router.get("/notifications/:employeeId", employeeController.getNotifications)
+
 module.exports = router;

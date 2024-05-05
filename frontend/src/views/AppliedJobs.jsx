@@ -128,7 +128,7 @@ const AppliedJobs = () => {
                   <span className="text-sm text-slate-800">Status: </span>
                   <span
                     className={`text-sm ${
-                      job.status === "Applied"
+                      job.status === "Applied" || job.status === "Shortlisted"
                         ? "text-blue-600"
                         : job.status === "Accepted"
                         ? "text-green-600"

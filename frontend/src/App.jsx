@@ -21,6 +21,7 @@ import ViewApplicants from "./views/ViewApplicants";
 import ApplicantDetails from "./views/ApplicantDetails";
 import AppliedJobs from "./views/AppliedJobs";
 import ViewExpiredJobs from "./views/ViewExpiredJobs";
+import ViewNotifications from "./views/ViewNotifications";
 
 export default function App() {
   return (
@@ -77,6 +78,10 @@ export default function App() {
             <Route path="/user/view-job/:id" element={<IndividualJobPage />} />
             <Route path="/user/view-jobs" element={<ViewAllJobs />} />
             <Route path="/user/applied-jobs/:id" element={<AppliedJobs />} />
+            <Route
+              path="/user/notifications/:id"
+              element={<ViewNotifications />}
+            />
           </Route>
           <Route path="/about" element={<h1 className="">About</h1>} />
           <Route path="/contact" element={<h1 className="">Contact</h1>} />

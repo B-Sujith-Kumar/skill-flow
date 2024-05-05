@@ -402,6 +402,19 @@ const withdrawJob = async (req, res) => {
     }
 }
 
+const getNotifications = async (req, res) => {
+    const employeeId = req.params.employeeId;
+    try {
+        const user = await Employee.findOne({ 'credentials.employeeID': employeeId });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "Employee not found." });
+        }
+        return res.status(200).json(user.additionalInformation.notifications);
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "Internal server error." });
+    }
+}
+
 
 
 module.exports = {
@@ -416,5 +429,6 @@ module.exports = {
     updatedEmployee,
     applyJob,
     appliedJobs,
-    withdrawJob
+    withdrawJob,
+    getNotifications
 };
