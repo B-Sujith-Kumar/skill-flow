@@ -358,25 +358,7 @@ const applyJob = async (req, res) => {
     }
 }
 
-const getAppliedJobs = async (req, res) => {
-    try {
-        const employeeId = req.params.employeeId;
 
-        const emp = await Employee.findOne({ 'credentials.employeeID': employeeId });
-
-        if (!emp) {
-            return res.status(404).json({ success: false, message: "Employee not found." });
-        }
-
-        const appliedJobs = emp.appliedJobs;
-
-        res.status(200).json({ success: true, appliedJobs });
-    } catch (error) {
-        console.error("Error getting applied jobs:", error);
-        res.status(500).json({ success: false, message: "Internal server error." });
-    }
-
-}
 
 
 module.exports = {
@@ -389,6 +371,5 @@ module.exports = {
     getEmployee,
     profileImage,
     updatedEmployee,
-    applyJob,
-    getAppliedJobs
+    applyJob
 };
