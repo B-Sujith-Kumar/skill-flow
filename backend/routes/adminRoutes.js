@@ -58,8 +58,6 @@ router.post("/adminProfile", authenticateToken, adminController.adminProfile);
 
 router.get("/expired-jobs", adminController.getExpiredJobs);
 
-
-
-
+router.post("/updateStatus/:jobid", adminController.updateStatus);
 
 module.exports = router;

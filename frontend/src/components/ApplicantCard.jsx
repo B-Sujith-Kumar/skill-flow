@@ -1,5 +1,42 @@
-const ApplicantCard = ({ applicant }) => {
-  console.log(applicant.credentials.employeeID);
+import { useState } from "react";
+import toastr from "toastr";
+
+const ApplicantCard = ({ applicant, jobid }) => {
+  let filterStatus = applicant.appliedJobs.filter(
+    (item) => item.jobId === jobid
+  );
+  for (let i = 0; i < filterStatus.length; i++) {
+    if (filterStatus[i].jobId === jobid) {
+      filterStatus = filterStatus[i];
+      break;
+    }
+  }
+  const [status, setStatus] = useState(filterStatus.status);
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+    const updateStatus = async () => {
+      const res = await fetch(
+        `http://localhost:3000/api/admin/updateStatus/${jobid}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            employeeID: applicant.credentials.employeeID,
+            status: e.target.value,
+          }),
+        }
+      );
+      if (!res.ok) {
+        toastr.error("Failed to update status");
+        return;
+      } else {
+        toastr.success("Status updated successfully");
+      }
+    };
+    updateStatus();
+  };
   return (
     <div className="flex flex-col gap-y-3 justify-start items-start rounded-lg shadow-lg hover:shadow-2xl bg-white py-5 px-6">
       <a
@@ -70,11 +107,11 @@ const ApplicantCard = ({ applicant }) => {
         >
           View Resume
         </a>
-        <select name="" id="">
-          <option value="">Applied</option>
-          <option value="">Shortlisted</option>
-          <option value="">Accepted</option>
-          <option value="">Rejected</option>
+        <select name="status" value={status} onChange={handleStatusChange}>
+          <option value="Applied">Applied</option>
+          <option value="Shortlisted">Shortlisted</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Rejected">Rejected</option>
         </select>
       </div>
     </div>

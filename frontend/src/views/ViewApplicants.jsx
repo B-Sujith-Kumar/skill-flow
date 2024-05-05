@@ -12,7 +12,6 @@ const ViewApplicants = () => {
       .then((res) => res.json())
       .then((data) => {
         setApplicant(data);
-        console.log(data);
       });
   };
   useEffect(() => {
@@ -32,7 +31,7 @@ const ViewApplicants = () => {
         </h1>
         <div className="grid gap-x-8 grid-cols-3 gap-y-8 max-lg:grid-cols-2 mt-8 max-[684px]:grid-cols-1">
           {applicant.map((applicant, i) => (
-            <ApplicantCard applicant={applicant} key={i} />
+            <ApplicantCard applicant={applicant} jobid={jobid} key={i} />
           ))}
         </div>
       </div>

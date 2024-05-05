@@ -246,6 +246,28 @@ const getExpiredJobs = async (req, res) => {
     }
 }
 
+const updateStatus = async (req, res) => {
+    try {
+        const { jobid } = req.params;
+        const { employeeID, status } = req.body;
+        const employee = await Employee.findOne({ "credentials.employeeID": employeeID });
+        if (!employee) {
+            return res.status(404).json({ error: "Employee not found" });
+        }
+        const jobIndex = employee.appliedJobs.findIndex(job => job.jobId === jobid);
+        if (jobIndex === -1) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+        employee.appliedJobs[jobIndex].status = status;
+        await employee.save();
+        res.status(200).json({ message: "Status updated successfully" });
+    } catch (error) {
+        console.error("Error updating status:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+}
+
 
 
 
@@ -259,5 +281,6 @@ module.exports = {
     getDepartments,
     adminProfile,
     applicants,
-    getExpiredJobs
+    getExpiredJobs,
+    updateStatus
 };
