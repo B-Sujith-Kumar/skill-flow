@@ -42,4 +42,6 @@ router.post("/apply-job", employeeController.applyJob)
 
 router.get("/appliedJobs/:employeeId", employeeController.appliedJobs)
 
+router.post("/withdraw/:jobId", employeeController.withdrawJob)
+
 module.exports = router;

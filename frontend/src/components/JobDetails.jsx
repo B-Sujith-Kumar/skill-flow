@@ -477,16 +477,20 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-center mt-4">
-              <button className="text-center bg-blue-600 inline-block mx-auto px-4 py-2 rounded-lg">
-                <a
-                  href={`/admin/applicants/${jobDetails.jobid}`}
-                  className="text-white"
-                >
-                  View All
-                </a>
-              </button>
-            </div>
+            {applicantDetails.length > 0 ? (
+              <div className="flex justify-center mt-4">
+                <button className="text-center bg-blue-600 inline-block mx-auto px-4 py-2 rounded-lg">
+                  <a
+                    href={`/admin/applicants/${jobDetails.jobid}`}
+                    className="text-white"
+                  >
+                    View All
+                  </a>
+                </button>
+              </div>
+            ) : (
+              <p className="text-center">No applicants found</p>
+            )}
           </div>
         </div>
       )}

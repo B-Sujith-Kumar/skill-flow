@@ -358,6 +358,8 @@ const applyJob = async (req, res) => {
     }
 }
 
+
+
 const appliedJobs = async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
@@ -378,6 +380,28 @@ const appliedJobs = async (req, res) => {
     }
 }
 
+const withdrawJob = async (req, res) => {
+    const jobId = req.params.jobId;
+    const { employeeId } = req.body;
+    try {
+        const jobPosting = await Job.findOne({ jobid: jobId });
+        const user = await Employee.findOne({ 'credentials.employeeID': employeeId });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "Employee not found." });
+        }
+        if (!jobPosting) {
+            return res.status(404).json({ success: false, message: "Job posting not found." });
+        }
+        jobPosting.applicants = jobPosting.applicants.filter((id) => id !== employeeId);
+        user.appliedJobs = user.appliedJobs.filter((job) => job.jobId !== jobId);
+        await jobPosting.save();
+        await user.save();
+        return res.status(200).json({ success: true, message: "Job application withdrawn successfully" });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "Internal server error." });
+    }
+}
+
 
 
 module.exports = {
@@ -391,5 +415,6 @@ module.exports = {
     profileImage,
     updatedEmployee,
     applyJob,
-    appliedJobs
+    appliedJobs,
+    withdrawJob
 };
