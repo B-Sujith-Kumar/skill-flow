@@ -21,11 +21,10 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
         shuffledArray[i],
       ];
     }
-    console.log(shuffledArray);
     return shuffledArray;
   };
 
-  console.log(applied);
+  console.log(jobDetails);
   const handleJobApply = () => {
     const applyJob = async () => {
       const res = await fetch("http://localhost:3000/api/employee/apply-job", {
@@ -91,7 +90,6 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
         ) {
           setEmployeeSkills(data.employee.additionalInformation.skills);
           setIsLoading(false);
-          console.log(data.employee.additionalInformation.skills);
         } else {
           throw new Error("Employee skills not found in response data");
         }
@@ -137,7 +135,6 @@ const JobDetails = ({ jobDetails, isIndividual }) => {
         );
         const applicantsData = await applicants.json();
         setApplicantDetails(applicantsData);
-        console.log(applicantsData);
       } catch (err) {
         console.error("Error fetching applicants:", err);
       }

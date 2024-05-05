@@ -36,6 +36,9 @@ const employeeSchema = new mongoose.Schema({
     },
     appliedJobs: [{
         jobId: { type: String },
+        jobTitle: { type: String },
+        salary: { type: Number },
+        experience : {type: String},
         status: { type: String, default: 'Applied' },
     }]
 });

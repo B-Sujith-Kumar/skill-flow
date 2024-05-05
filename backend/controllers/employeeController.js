@@ -345,7 +345,7 @@ const applyJob = async (req, res) => {
 
         jobPosting.applicants.push(employeeId);
 
-        user.appliedJobs.push({ jobId: jobId });
+        user.appliedJobs.push({ jobId: jobId, jobTitle: jobPosting.title, experience: jobPosting.experience, salary: jobPosting.salary });
 
         await jobPosting.save();
 
@@ -358,6 +358,25 @@ const applyJob = async (req, res) => {
     }
 }
 
+const appliedJobs = async (req, res) => {
+    try {
+        const employeeId = req.params.employeeId;
+
+        const employee = await Employee.findOne({ 'credentials.employeeID': employeeId });
+
+        if (!employee) {
+
+            return res.status(404).json({ error: "Employee not found" });
+        }
+
+        const appliedJobs = employee.appliedJobs;
+
+        res.status(200).json(appliedJobs);
+    } catch (error) {
+        console.error("Error getting applied jobs for employee:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 
 
@@ -371,5 +390,6 @@ module.exports = {
     getEmployee,
     profileImage,
     updatedEmployee,
-    applyJob
+    applyJob,
+    appliedJobs
 };
