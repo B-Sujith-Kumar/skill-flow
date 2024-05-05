@@ -2,9 +2,8 @@ import AdminSidebar from "../components/AdminSidebar";
 import { useEffect, useState } from "react";
 import AllJobCard from "../components/AllJobCard";
 import { BeatLoader } from "react-spinners";
-import EmployeeSidebar from "../components/EmployeeSidebar";
 
-const ViewAllJobs = () => {
+const ViewExpiredJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [filtersApplied, setFiltersApplied] = useState(false);
@@ -19,10 +18,11 @@ const ViewAllJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       setIsLoading(true);
-      await fetch("http://localhost:3000/api/admin/allJobs")
+      await fetch("http://localhost:3000/api/admin/expired-jobs")
         .then((res) => res.json())
         .then((data) => {
           setJobs(data);
+          console.log(data);
         });
       await fetch("http://localhost:3000/api/admin/departments")
         .then((res) => res.json())
@@ -34,12 +34,12 @@ const ViewAllJobs = () => {
     };
     fetchJobs();
   }, []);
-
   const applyFilters = (salary, location, dept, skill) => {
     setIsLoading(true);
     setFiltersApplied(
       salary !== 0 || location !== "" || dept !== "" || skill !== ""
     );
+
     const filtered = jobs.filter((job) => {
       const meetsSalary = salary === 0 || job.salary >= salary;
       const meetsLocation =
@@ -94,11 +94,7 @@ const ViewAllJobs = () => {
 
   return (
     <div>
-      {localStorage.getItem("Type") === "employee" ? (
-        <EmployeeSidebar />
-      ) : (
-        <AdminSidebar />
-      )}
+      <AdminSidebar />
       <div className="min-h-screen main-content bg-dashboard font-rubik pb-8 overflow-hidden">
         <div className="min-w-full min-h-full flex ml-6 pr-12 max-md:justify-center">
           <div>
@@ -206,44 +202,38 @@ const ViewAllJobs = () => {
             </div>
             {!isLoading && !filtersApplied && (
               <section className="grid grid-cols-2 gap-x-6 max-md:grid-cols-1">
-                {jobs.map(
-                  (job) =>
-                    new Date(job.applicationDeadline) >= new Date() && (
-                      <a
-                        href={
-                          localStorage.getItem("Type") === "employee"
-                            ? `/user/view-job/${job.jobid}`
-                            : `/admin/job-management/view-job/${job.jobid}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        key={job.jobid}
-                      >
-                        <AllJobCard job={job} />
-                      </a>
-                    )
-                )}
+                {jobs.map((job) => (
+                  <a
+                    href={
+                      localStorage.getItem("Type") === "employee"
+                        ? `/user/view-job/${job.jobid}`
+                        : `/admin/job-management/view-job/${job.jobid}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={job.jobid}
+                  >
+                    <AllJobCard job={job} />
+                  </a>
+                ))}
               </section>
             )}
             {!isLoading && filtersApplied && filteredJobs.length > 0 && (
               <section className="grid grid-cols-2 gap-x-6 gap-y-8 max-md:grid-cols-1">
-                {filteredJobs.map(
-                  (job) =>
-                    new Date(job.applicationDeadline) >= new Date() && (
-                      <a
-                        href={
-                          localStorage.getItem("Type") === "employee"
-                            ? `/user/view-job/${job.jobid}`
-                            : `/admin/job-management/view-job/${job.jobid}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        key={job.jobid}
-                      >
-                        <AllJobCard job={job} />
-                      </a>
-                    )
-                )}
+                {filteredJobs.map((job) => (
+                  <a
+                    href={
+                      localStorage.getItem("Type") === "employee"
+                        ? `/user/view-job/${job.jobid}`
+                        : `/admin/job-management/view-job/${job.jobid}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={job.jobid}
+                  >
+                    <AllJobCard job={job} />
+                  </a>
+                ))}
               </section>
             )}
           </div>
@@ -266,4 +256,4 @@ const ViewAllJobs = () => {
   );
 };
 
-export default ViewAllJobs;
+export default ViewExpiredJobs;

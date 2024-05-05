@@ -214,24 +214,37 @@ const adminProfile = async (req, res) => {
 
 }
 
-const applicants = async(req,res)=>{
+const applicants = async (req, res) => {
     try {
         const jobid = req.params.jobid;
 
         const applicants = await Employee.find({ "appliedJobs.jobId": jobid });
-    
+
         if (!applicants) {
 
-          return res.status(404).json({ error: "No applicants found for this job" });
+            return res.status(404).json({ error: "No applicants found for this job" });
         }
 
         res.status(200).json(applicants);
-      } catch (error) {
+    } catch (error) {
 
         console.error("Error getting applicants for job:", error.message);
         res.status(500).json({ error: "Internal server error" });
-      }
     }
+}
+
+const getExpiredJobs = async (req, res) => {
+    try {
+        const expiredJobs = await InternalJobPosting.find({
+            applicationDeadline: { $lt: Date.now() }
+        });
+
+        res.status(200).json(expiredJobs);
+    } catch (error) {
+        console.error("Error getting expired jobs:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 
 
@@ -245,5 +258,6 @@ module.exports = {
     displayAllJobs,
     getDepartments,
     adminProfile,
-    applicants
+    applicants,
+    getExpiredJobs
 };

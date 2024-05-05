@@ -258,6 +258,21 @@ const JobManagement = () => {
               </button>
             )}
           </Link>
+          <Link to={"/admin/expired-jobs"}>
+            {!isLoading && localStorage.getItem("isAdmin") && (
+              <button className="border-2 px-4 py-2 border-green-600 text-green-600 flex items-center gap-2 hover:bg-green-600 hover:text-white transition duration-300 ease-in-out rounded-md">
+                View Expired Jobs{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  width={14}
+                  fill="currentColor"
+                >
+                  <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                </svg>
+              </button>
+            )}
+          </Link>
           {searched && (
             <button
               className="border-2 border-red-600 px-4 py-2 rounded-md text-red-600 hover:text-white hover:bg-red-600 transition duration-300 ease-in-out"

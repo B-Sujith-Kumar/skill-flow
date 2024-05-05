@@ -20,6 +20,7 @@ import PrivateRoutesEmployee from "./components/PrivateRoutesEmployee";
 import ViewApplicants from "./views/ViewApplicants";
 import ApplicantDetails from "./views/ApplicantDetails";
 import AppliedJobs from "./views/AppliedJobs";
+import ViewExpiredJobs from "./views/ViewExpiredJobs";
 
 export default function App() {
   return (
@@ -67,6 +68,7 @@ export default function App() {
             />
             <Route path="/admin/:id" element={<ApplicantDetails />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/expired-jobs" element={<ViewExpiredJobs />} />
           </Route>
           <Route element={<PrivateRoutesEmployee />}>
             <Route path="/user/dashboard" element={<JobManagement />} />

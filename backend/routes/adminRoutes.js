@@ -56,6 +56,8 @@ router.get("/departments", adminController.getDepartments);
 
 router.post("/adminProfile", authenticateToken, adminController.adminProfile);
 
+router.get("/expired-jobs", adminController.getExpiredJobs);
+
 
 
 
