@@ -51,13 +51,17 @@ const Loginuser = () => {
   return (
     <div className="min-h-screen sm:bg-gradient-to-bl from-white to-green-50 via-slate-50">
       <div className="max-w-3xl font-rubik mx-auto flex flex-col justify-center pt-10 items-center gap-4 max-sm:mx-3">
-        <img src={logo} alt="logo" width={230} />
+        <header className="">
+            <h1 className="text-3xl">
+                <span className="font-medium">SKILL</span>FLOW
+            </h1>
+        </header>
         <div>
           <h2 className="text-center font-medium text-slate-800 text-2xl">
             For Employee
           </h2>
-          <p className="text-center mt-2 text-md max-w-md text-slate-600">
-            Practice coding, prepare for interviews, and get hired.
+          <p className="text-center mt-2 text-md max-w-lg text-slate-600">
+            Stay updated on new openings and grow within our organization
           </p>
         </div>
       </div>

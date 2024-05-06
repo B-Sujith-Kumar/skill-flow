@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import hamburger from "../../public/hamburger.svg";
-import close from "../../public/close.svg";
+import hamburger from "../assets/icons/hamburger.svg";
+import close from "../assets/icons/close.svg";
 
 const MobileEmployeeSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +24,7 @@ const MobileEmployeeSidebar = () => {
         <nav className="py-4 px-8 lg2:hidden flex justify-between">
           <h1 className="text-3xl font-rubik">
             <Link to="/user/dashboard">
-              <span className="font-bold">Skill</span> Flow
+              <span className="font-bold">SKILL</span> FLOW
             </Link>
           </h1>
           <img
@@ -43,7 +43,7 @@ const MobileEmployeeSidebar = () => {
         >
           <div className="flex justify-between pt-10">
             <h1 className="text-3xl font-rubik">
-              <span className="font-bold">Skill</span> Flow
+              <span className="font-bold">SKILL</span> FLOW
             </h1>
             <img
               src={close}

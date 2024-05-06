@@ -27,8 +27,9 @@ const LandingPage = () => {
               </h2>
             </div>
             <p className="max-w-md text-center text-lg max-sm:mx-3 text-slate-700">
-              We are the market-leading technical interview platform to identify
-              and hire developers with the right skills.
+              Streamline Your Recruitment: Efficiently manage and fill positions
+              within your organization. Leverage tools to optimize your internal
+              hiring process.
             </p>
             <Link to="/admin/login">
               {" "}
@@ -48,8 +49,9 @@ const LandingPage = () => {
               </h2>
             </div>
             <p className="max-w-md text-center text-lg max-sm:mx-3 text-slate-700">
-              Join over 21 million employees, practice coding skills, prepare
-              for interviews, and get hired using the platform.
+              Find Opportunities Within: Stay updated on new openings and grow
+              within our organization. Explore diverse roles tailored to your
+              career ambitions.
             </p>
             <Link to="/user/login">
               <button
