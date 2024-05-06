@@ -2,6 +2,7 @@ import { useState } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 const AdminProfile = () => {
   const [currentPassword, setcurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -65,7 +66,10 @@ const AdminProfile = () => {
   };
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-8">
         <div>
           <p className="pt-8 text-slate-500">Pages / Profile</p>

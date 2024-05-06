@@ -3,6 +3,7 @@ import "../App.css";
 import { useState } from "react";
 import toastr from "toastr";
 import { BeatLoader } from "react-spinners";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const UpdateEmployee = () => {
   const [employeeID, setEmployeeID] = useState("");
@@ -206,7 +207,10 @@ const UpdateEmployee = () => {
   };
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Employee Management / Update an Employee

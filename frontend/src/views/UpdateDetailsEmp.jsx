@@ -5,6 +5,8 @@ import logo from "../assets/images/logo.svg";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { useNavigate } from "react-router-dom";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
+import EmployeeSidebar from "../components/EmployeeSidebar";
 
 const UpdateDetailsEmp = () => {
   const [error, setError] = useState("");
@@ -333,9 +335,10 @@ const UpdateDetailsEmp = () => {
 
   return (
     <div className="bg-dashboard">
-      <header className=" py-3 text-center font-rubik text-3xl font-medium">
-        <img src={logo} alt="" className="mx-auto" />
-      </header>
+      <>
+        <EmployeeSidebar />
+        <MobileEmployeeSidebar />
+      </>
       {!isLoading ? (
         <div className="font-rubik">
           <h2 className="text-center text-2xl font-semibold mt-4">
@@ -408,7 +411,9 @@ const UpdateDetailsEmp = () => {
                   )}
                 </div>
               </div>
-              <div className="text-center mt-6 border-[3px] rounded-sm font-medium border-yellow-300 bg-white py-2 tracking-wide">Your ID : {formData.employeeID}</div>
+              <div className="text-center mt-6 border-[3px] rounded-sm font-medium border-yellow-300 bg-white py-2 tracking-wide">
+                Your ID : {formData.employeeID}
+              </div>
             </div>
             <div className="flex-1">
               {formData && (

@@ -3,6 +3,7 @@ import companyLogo from "../assets/images/78730.gif";
 import EmployeeSidebar from "../components/EmployeeSidebar";
 import { useEffect, useState } from "react";
 import toastr from "toastr";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
 
 const AppliedJobs = () => {
   const { id } = useParams();
@@ -72,7 +73,10 @@ const AppliedJobs = () => {
 
   return (
     <div>
-      <EmployeeSidebar />
+      <>
+        <EmployeeSidebar />
+        <MobileEmployeeSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <h1 className="text-center pt-5 font-rubik text-2xl font-medium">
           Applied Jobs
@@ -80,7 +84,12 @@ const AppliedJobs = () => {
         {appliedJobs.length === 0 ? (
           <div className="text-center mt-8 text-xl min-h-full w-full">
             <h1>No jobs applied yet 😢. Start applying</h1>
-            <Link to="/user/view-jobs" className="mt-8 inline-block text-base bg-blue-600 text-white px-3 py-2 rounded-md">View Jobs</Link>
+            <Link
+              to="/user/view-jobs"
+              className="mt-8 inline-block text-base bg-blue-600 text-white px-3 py-2 rounded-md"
+            >
+              View Jobs
+            </Link>
           </div>
         ) : (
           <div className="grid gap-x-8 grid-cols-3 gap-y-8 max-lg:grid-cols-2 mt-8 max-[684px]:grid-cols-1">

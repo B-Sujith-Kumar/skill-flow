@@ -3,6 +3,7 @@ import "../App.css";
 import { useState } from "react";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 toastr.options = {
   closeButton: true,
@@ -41,7 +42,12 @@ const AddEmployee = () => {
     if (Object.keys(errors).length === 0) {
       const updatedFormData = {
         ...formData,
-        fullName: formData.firstName + " " +  formData.middleName + " " +  formData.lastName,
+        fullName:
+          formData.firstName +
+          " " +
+          formData.middleName +
+          " " +
+          formData.lastName,
       };
 
       setFormData(updatedFormData);
@@ -153,7 +159,10 @@ const AddEmployee = () => {
   };
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Employee Management / Add an Employee

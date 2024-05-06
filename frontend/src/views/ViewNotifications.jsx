@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import EmployeeSidebar from "../components/EmployeeSidebar";
 import { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
 
 const ViewNotifications = () => {
   const { id } = useParams();
@@ -37,6 +38,7 @@ const ViewNotifications = () => {
   return (
     <div>
       <EmployeeSidebar />
+      <MobileEmployeeSidebar />
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <h1 className="text-center pt-4 text-2xl font-medium">Notifications</h1>
         {isLoading ? (
@@ -51,7 +53,7 @@ const ViewNotifications = () => {
                 key={notification._id}
                 className="bg-white p-4 px-6 rounded-lg shadow-xl mb-4"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between max-sm:flex-col max-sm:justify-start max-sm:items-start max-sm:gap-y-3">
                   <div className="flex gap-x-3 items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -3,6 +3,8 @@ import { BeatLoader } from "react-spinners";
 import logo from "../assets/images/logo.svg";
 import "firebase/compat/storage";
 import { useParams } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const ApplicantDetails = () => {
   const { id } = useParams();
@@ -32,9 +34,10 @@ const ApplicantDetails = () => {
   return (
     employee && (
       <div className="bg-dashboard">
-        <header className=" py-3 text-center font-rubik text-3xl font-medium">
-          <img src={logo} alt="" className="mx-auto" />
-        </header>
+        <>
+          <AdminSidebar />
+          <MobileAdminSidebar />
+        </>
         {!isLoading ? (
           <div className="font-rubik">
             <div className="flex w-full gap-8 mt-4 px-6 max-md:flex-col">

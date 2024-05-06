@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import AllJobCard from "../components/AllJobCard";
 import { BeatLoader } from "react-spinners";
 import EmployeeSidebar from "../components/EmployeeSidebar";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const ViewAllJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -95,9 +97,15 @@ const ViewAllJobs = () => {
   return (
     <div>
       {localStorage.getItem("Type") === "employee" ? (
-        <EmployeeSidebar />
+        <>
+          <EmployeeSidebar />
+          <MobileEmployeeSidebar />
+        </>
       ) : (
-        <AdminSidebar />
+        <>
+          <AdminSidebar />
+          <MobileAdminSidebar />
+        </>
       )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pb-8 overflow-hidden">
         <div className="min-w-full min-h-full flex ml-6 pr-12 max-md:justify-center">

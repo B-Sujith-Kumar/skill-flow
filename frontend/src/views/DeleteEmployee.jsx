@@ -4,6 +4,7 @@ import { useState } from "react";
 import DisplayEmpDetails from "../components/DisplayEmpDetails";
 import { BeatLoader } from "react-spinners";
 import toastr from "toastr";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const DeleteEmployee = () => {
   const [employeeID, setEmployeeID] = useState("");
@@ -113,7 +114,10 @@ const DeleteEmployee = () => {
 
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6">
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Employee Management / Delete an Employee

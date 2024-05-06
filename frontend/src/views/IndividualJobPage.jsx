@@ -4,6 +4,8 @@ import AdminSidebar from "../components/AdminSidebar";
 import JobDetails from "../components/JobDetails";
 import { BeatLoader } from "react-spinners";
 import EmployeeSidebar from "../components/EmployeeSidebar";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const IndividualJobPage = () => {
   const { id } = useParams();
@@ -24,9 +26,15 @@ const IndividualJobPage = () => {
   return (
     <div>
       {localStorage.getItem("Type") === "employee" ? (
-        <EmployeeSidebar />
+        <>
+          <EmployeeSidebar />
+          <MobileEmployeeSidebar />
+        </>
       ) : (
-        <AdminSidebar />
+        <>
+          <AdminSidebar />
+          <MobileAdminSidebar />
+        </>
       )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <div className="pt-8">

@@ -3,6 +3,7 @@ import { BeatLoader } from "react-spinners";
 import { useState } from "react";
 import toastr from "toastr";
 import JobDetails from "../components/JobDetails";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const DeleteJob = () => {
   const [jobID, setJobID] = useState("");
@@ -85,7 +86,10 @@ const DeleteJob = () => {
   };
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <p className="pt-8 text-slate-500 max-sm:text-sm">
           Pages / Job Management / Delete Job

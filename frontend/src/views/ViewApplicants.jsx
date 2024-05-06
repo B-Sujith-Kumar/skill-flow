@@ -3,6 +3,8 @@ import AdminSidebar from "../components/AdminSidebar";
 import EmployeeSidebar from "../components/EmployeeSidebar";
 import { useEffect, useState } from "react";
 import ApplicantCard from "../components/ApplicantCard";
+import MobileEmployeeSidebar from "../components/MobileEmployeeSidebar";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const ViewApplicants = () => {
   const { jobid } = useParams();
@@ -21,9 +23,15 @@ const ViewApplicants = () => {
   return (
     <div>
       {localStorage.getItem("Type") === "employee" ? (
-        <EmployeeSidebar />
+        <>
+          <EmployeeSidebar />
+          <MobileEmployeeSidebar />
+        </>
       ) : (
-        <AdminSidebar />
+        <>
+          <AdminSidebar />
+          <MobileAdminSidebar />
+        </>
       )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pl-10 pr-10 max-sm:px-6 pb-4">
         <h1 className="text-center pt-5 font-rubik text-2xl font-medium">

@@ -2,6 +2,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import { useEffect, useState } from "react";
 import AllJobCard from "../components/AllJobCard";
 import { BeatLoader } from "react-spinners";
+import MobileAdminSidebar from "../components/MobileAdminSidebar";
 
 const ViewExpiredJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -94,7 +95,10 @@ const ViewExpiredJobs = () => {
 
   return (
     <div>
-      <AdminSidebar />
+      <>
+        <AdminSidebar />
+        <MobileAdminSidebar />
+      </>
       <div className="min-h-screen main-content bg-dashboard font-rubik pb-8 overflow-hidden">
         <div className="min-w-full min-h-full flex ml-6 pr-12 max-md:justify-center">
           <div>

@@ -7,6 +7,8 @@ import { BeatLoader } from "react-spinners";
 import search from "../assets/icons/searchIcon.svg";
 import { Link } from "react-router-dom";
 import EmployeeSidebar from "./EmployeeSidebar";
+import MobileEmployeeSidebar from "./MobileEmployeeSidebar";
+import MobileAdminSidebar from "./MobileAdminSidebar";
 
 const JobManagement = () => {
   const [jobs, setJobs] = useState([]);
@@ -99,9 +101,15 @@ const JobManagement = () => {
   return (
     <div>
       {localStorage.getItem("Type") === "employee" ? (
-        <EmployeeSidebar />
+        <>
+          <EmployeeSidebar />
+          <MobileEmployeeSidebar />
+        </>
       ) : (
-        <AdminSidebar />
+        <>
+          <AdminSidebar />
+          <MobileAdminSidebar />
+        </>
       )}
       <div className="min-h-screen main-content bg-dashboard font-rubik pt-6 pl-10 pr-10 max-sm:px-6 pb-8">
         {localStorage.getItem("Type") === "employee" ? (
@@ -111,7 +119,7 @@ const JobManagement = () => {
         ) : (
           <div className="flex flex-wrap max-sm:flex-col">
             <div>
-              <p className="pt-8 text-slate-500">Pages / Job Management</p>
+              <p className="pt-2 text-slate-500">Pages / Job Management</p>
 
               <h2 className="text-3xl mt-2 mb-3 font-medium text-slate-800">
                 Job Management

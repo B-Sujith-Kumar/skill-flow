@@ -17,6 +17,9 @@ export default {
             },
             backgroundImage: {
                 'custom-image': "url('/src/assets/images/book-bg.png)"
+            },
+            screens: {
+                'lg2' : '1200px'
             }
         },
     },
